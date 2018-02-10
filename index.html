@@ -14,19 +14,22 @@
             cursor: default;
             pointer-events: none;
         }
-        .active text {
+        .filtered text,
+        .hover text {
             opacity: 1;
             fill: cyan;
             text-shadow: 1px 1px black;
         }
         circle {
-            stroke: red;
-            stroke-width: 2;
             fill-opacity: 0;
-            stroke-opacity: 0.8;
+            stroke-opacity: 0;
         }
-        .active circle {
+        .filtered circle,
+        .hover circle{
+            stroke: red;
             stroke-width: 5;
+            fill-opacity: 0;
+            stroke-opacity: 0.4;
         }
     </style>
 
@@ -47,13 +50,27 @@
                     <option value="ruins">ruins</option>
                     <option value="cave">cave</option>
                     <option value="swamp">swamp</option>
-                    <option value="desert">desert</option>  
+                    <option value="desert">desert</option>
                     <option value="fort">fort</option>
                     <option value="home">Home</option>
                     <option value="rothgar">Rothgar</option>
-                </select>
+                </select>   
                 <br/>
                 <input id="name" />
+                <div>
+                    <select id="terrain" onchange="filterTerrain(this.value)">
+                        <option value="default" selected>none</option>
+                        <option value="city">city</option>
+                        <option value="forest">forest</option>
+                        <option value="ruins">ruins</option>
+                        <option value="cave">cave</option>
+                        <option value="swamp">swamp</option>
+                        <option value="desert">desert</option>
+                        <option value="fort">fort</option>
+                        <option value="home">Home</option>
+                        <option value="rothgar">Rothgar</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -1484,7 +1501,22 @@
   }
 ];
         const svg = d3.selectAll("#map");
-
+        svg.append("image")
+            .attr("xlink:href", "map.png")
+            .attr("width", 1028)
+            .attr("height", 769)    
+            .on("click", (data, i) => {
+                const [x,y] = d3.mouse(svg.node());
+                const newPoint = {
+                    type: d3.select("#type").node().value,
+                    name: d3.select("#name").node().value,
+                    x: x,
+                    y: y
+                };
+                console.log(newPoint);
+                markers.push(newPoint);
+                update();
+            });
         function update(){
             const points = svg.selectAll("g").data(markers);
             const g = points.enter()
@@ -1502,30 +1534,18 @@
                 })
                 .on("mouseover", (data, i) => {
                     console.log(i, data)
-                    d3.select(d3.event.target.parentNode).classed("active", true)
+                    d3.select(d3.event.target.parentNode).classed("hover", true)
                 })
-                .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("active", false));
+                .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("hover", false));
             g.append("text")
                 .attr("dy", -16)
                 .attr("text-anchor", "middle")
                 .text((d,i) => d.name);
         }
-        svg.append("image")
-            .attr("xlink:href", "map.png")
-            .attr("width", 1028)
-            .attr("height", 769)    
-            .on("click", (data, i) => {
-                const [x,y] = d3.mouse(svg.node());
-                const newPoint = {
-                    type: d3.select("#type").node().value,
-                    name: d3.select("#name").node().value,
-                    x: x,
-                    y: y
-                };
-                console.log(newPoint);
-                markers.push(newPoint);
-                update();
-            });
+        function filterTerrain(value){
+            svg.selectAll("g").classed("filtered", false);
+            svg.selectAll("g").filter(data => data.type === value).classed("filtered", true);
+        }
         update();
     </script>
 </body>
