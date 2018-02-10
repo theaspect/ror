@@ -35,7 +35,7 @@
 
     <title>Region of Ruins Map 0.1</title>
 </head>
-<body>
+<body onhashchange="onHashChange()">
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
@@ -58,8 +58,8 @@
                 <br/>
                 <input id="name" />
                 <div>
-                    <select id="terrain" onchange="filterTerrain(this.value)">
-                        <option value="default" selected>none</option>
+                    <select id="terrain" onchange="setHash('terrain', this.value)">
+                        <option value="" selected>none</option>
                         <option value="city">city</option>
                         <option value="forest">forest</option>
                         <option value="ruins">ruins</option>
@@ -1781,10 +1781,36 @@
                 .text((d,i) => `${d.i}. ${d.name}`);
         }
         function filterTerrain(value){
+            setHash("terrain",value);
             svg.selectAll("g").classed("filtered", false);
             svg.selectAll("g").filter(data => data.type === value).classed("filtered", true);
         }
+
+        function onHashChange(){
+            console.log(location.hash);
+            const {filter, value} = getHash();
+            switch(filter){
+                case '#terrain':
+                    document.getElementById('terrain').value = value;
+                    filterTerrain(value);
+                    break;
+                default:
+                    console.log(`Unknown filter ${filter}`);
+            }
+        }
+        function setHash(filter, value){
+            location.hash=`${filter}/${value}`;
+        }
+        function getHash(){
+            if(location.hash){
+                const [filter, value] = location.hash.split("/");
+                return {filter:filter, value:value};
+            }else{
+                return {filter:"", value:""};
+            }
+        }
         update();
+        onHashChange();
     </script>
 </body>
 </html>
