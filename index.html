@@ -1,0 +1,1521 @@
+<html>
+<head>
+    <title>Region of Ruins</title>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <style>
+        text {
+            opacity: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: default;
+            pointer-events: none;
+        }
+        .active text {
+            opacity: 1;
+            fill: cyan;
+            text-shadow: 1px 1px black;
+        }
+        circle {
+            stroke: red;
+            stroke-width: 2;
+            fill-opacity: 0;
+            stroke-opacity: 0.8;
+        }
+        .active circle {
+            stroke-width: 5;
+        }
+    </style>
+</head>
+<body>
+    <div style="height: 100%">
+        <div>
+            <select id="type">
+                <option value="city">city</option>
+                <option value="forest">forest</option>
+                <option value="ruins">ruins</option>
+                <option value="cave">cave</option>
+                <option value="swamp">swamp</option>
+                <option value="desert">desert</option>
+                <option value="barricade">barricade</option>
+                <option value="home">Home</option>
+                <option value="final">final</option>
+            </select>
+            <input id="name" />
+        </div>
+        <svg id="map" 
+            height="95%" viewBox="0 0 1028 769" 
+            preserveAspectRatio="xMinYMin meet"></svg>
+    </div>
+    <script>
+        // JSON.stringify(markers, null, "  ")
+        const markers = [
+  {
+    "type": "home",
+    "name": "campground",
+    "x": 266.6981201171875,
+    "y": 385.0151062011719
+  },
+  {
+    "type": "city",
+    "name": "guarded town",
+    "x": 102.80000305175781,
+    "y": 612.9207763671875
+  },
+  {
+    "type": "city",
+    "name": "reclusive novel",
+    "x": 255.0603790283203,
+    "y": 606.132080078125
+  },
+  {
+    "type": "city",
+    "name": "hunters cottage",
+    "x": 182.32452392578125,
+    "y": 498.4830322265625
+  },
+  {
+    "type": "city",
+    "name": "hovel",
+    "x": 296.76226806640625,
+    "y": 464.53961181640625
+  },
+  {
+    "type": "city",
+    "name": "cotton farm",
+    "x": 260.8792419433594,
+    "y": 332.6452941894531
+  },
+  {
+    "type": "city",
+    "name": "cotton farm",
+    "x": 185.2339630126953,
+    "y": 254.09056091308594
+  },
+  {
+    "type": "city",
+    "name": "joe's farm",
+    "x": 321.0075378417969,
+    "y": 388.89434814453125
+  },
+  {
+    "type": "city",
+    "name": "desert town",
+    "x": 422.8377380371094,
+    "y": 391.80377197265625
+  },
+  {
+    "type": "ruins",
+    "name": "tall ruins",
+    "x": 85.34339904785156,
+    "y": 646.8641357421875
+  },
+  {
+    "type": "ruins",
+    "name": "silent southern ruins",
+    "x": 117.34716796875,
+    "y": 670.1396484375
+  },
+  {
+    "type": "ruins",
+    "name": "hovering beacon",
+    "x": 133.83396911621094,
+    "y": 705.0528564453125
+  },
+  {
+    "type": "ruins",
+    "name": "barricaded ruins",
+    "x": 157.10943603515625,
+    "y": 670.1396484375
+  },
+  {
+    "type": "ruins",
+    "name": "reshkar's outpost",
+    "x": 175.5358428955078,
+    "y": 634.256591796875
+  },
+  {
+    "type": "ruins",
+    "name": "tainted ruins",
+    "x": 133.83396911621094,
+    "y": 593.5245361328125
+  },
+  {
+    "type": "barricade",
+    "name": "blue skin fort",
+    "x": 137.7132110595703,
+    "y": 630.3773803710938
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 140.6226348876953,
+    "y": 486.84527587890625
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 166.8075408935547,
+    "y": 523.6981201171875
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 185.2339630126953,
+    "y": 546.9735717773438
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 118.31697845458984,
+    "y": 524.6679077148438
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 141.5924530029297,
+    "y": 552.79248046875
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 205.60000610351562,
+    "y": 621.6490478515625
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 232.7547149658203,
+    "y": 655.5924682617188
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 259.909423828125,
+    "y": 678.867919921875
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 192.02264404296875,
+    "y": 657.5321044921875
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 211.4188690185547,
+    "y": 687.5962524414062
+  },
+  {
+    "type": "forest",
+    "name": "kobold's village",
+    "x": 99.89056396484375,
+    "y": 577.0377197265625
+  },
+  {
+    "type": "forest",
+    "name": "murky grassland",
+    "x": 171.65660095214844,
+    "y": 586.73583984375
+  },
+  {
+    "type": "forest",
+    "name": "salted wastes",
+    "x": 207.5396270751953,
+    "y": 574.1282958984375
+  },
+  {
+    "type": "swamp",
+    "name": "seeping bog",
+    "x": 183.35801696777344,
+    "y": 475.0639343261719
+  },
+  {
+    "type": "ruins",
+    "name": "invaded ruins",
+    "x": 276.0788269042969,
+    "y": 644.8784790039062
+  },
+  {
+    "type": "forest",
+    "name": "unseemly wilds",
+    "x": 307.3330383300781,
+    "y": 669.8818359375
+  },
+  {
+    "type": "ruins",
+    "name": "nameless ruins",
+    "x": 153.14561462402344,
+    "y": 427.1408386230469
+  },
+  {
+    "type": "ruins",
+    "name": "tower of gur",
+    "x": 192.73428344726562,
+    "y": 429.2244567871094
+  },
+  {
+    "type": "ruins",
+    "name": "ruins of microlinia",
+    "x": 235.4483642578125,
+    "y": 416.7227478027344
+  },
+  {
+    "type": "forest",
+    "name": "obed's grave",
+    "x": 221.90487670898438,
+    "y": 512.5689697265625
+  },
+  {
+    "type": "forest",
+    "name": "lumberyard",
+    "x": 231.2811279296875,
+    "y": 460.4786376953125
+  },
+  {
+    "type": "forest",
+    "name": "goblin forest",
+    "x": 257.3262939453125,
+    "y": 483.3984069824219
+  },
+  {
+    "type": "forest",
+    "name": "howling forest",
+    "x": 267.744384765625,
+    "y": 442.7679443359375
+  },
+  {
+    "type": "cave",
+    "name": "floral cavern",
+    "x": 243.78282165527344,
+    "y": 556.3248901367188
+  },
+  {
+    "type": "cave",
+    "name": "lost city",
+    "x": 268.78619384765625,
+    "y": 519.8616333007812
+  },
+  {
+    "type": "cave",
+    "name": "small settlement",
+    "x": 286.49688720703125,
+    "y": 550.0740356445312
+  },
+  {
+    "type": "ruins",
+    "name": "peculiar ruins",
+    "x": 313.5838928222656,
+    "y": 575.077392578125
+  },
+  {
+    "type": "ruins",
+    "name": "orek's rest",
+    "x": 296.91497802734375,
+    "y": 614.6660766601562
+  },
+  {
+    "type": "ruins",
+    "name": "residual ruins",
+    "x": 336.5036315917969,
+    "y": 625.0841674804688
+  },
+  {
+    "type": "ruins",
+    "name": "druid's ruins",
+    "x": 380.259521484375,
+    "y": 619.8751220703125
+  },
+  {
+    "type": "ruins",
+    "name": "menam's ruins",
+    "x": 447.9769592285156,
+    "y": 615.7078857421875
+  },
+  {
+    "type": "forest",
+    "name": "worg rider camp",
+    "x": 414.63916015625,
+    "y": 648.00390625
+  },
+  {
+    "type": "forest",
+    "name": "uderest's ruins",
+    "x": 458.3950500488281,
+    "y": 664.6727905273438
+  },
+  {
+    "type": "forest",
+    "name": "overrun village",
+    "x": 410.471923828125,
+    "y": 597.9971923828125
+  },
+  {
+    "type": "forest",
+    "name": "sculptor's pines",
+    "x": 499.0255126953125,
+    "y": 632.3767700195312
+  },
+  {
+    "type": "forest",
+    "name": "beacon pines",
+    "x": 357.33978271484375,
+    "y": 569.8683471679688
+  },
+  {
+    "type": "forest",
+    "name": "muddled ruins",
+    "x": 412.5555419921875,
+    "y": 543.8231811523438
+  },
+  {
+    "type": "forest",
+    "name": "conflicted pines",
+    "x": 442.7679443359375,
+    "y": 537.5723876953125
+  },
+  {
+    "type": "forest",
+    "name": "goblin encampment",
+    "x": 291.7059326171875,
+    "y": 409.43011474609375
+  },
+  {
+    "type": "forest",
+    "name": "quiet woods",
+    "x": 315.66748046875,
+    "y": 421.9317932128906
+  },
+  {
+    "type": "forest",
+    "name": "bloodied forest",
+    "x": 352.1307373046875,
+    "y": 431.30804443359375
+  },
+  {
+    "type": "cave",
+    "name": "troll cave",
+    "x": 389.6357727050781,
+    "y": 465.68768310546875
+  },
+  {
+    "type": "cave",
+    "name": "crawler infestation",
+    "x": 434.4334716796875,
+    "y": 505.2763366699219
+  },
+  {
+    "type": "cave",
+    "name": "mining cave",
+    "x": 400.0538635253906,
+    "y": 429.2244567871094
+  },
+  {
+    "type": "cave",
+    "name": "slug infestation",
+    "x": 427.1408386230469,
+    "y": 459.4368591308594
+  },
+  {
+    "type": "cave",
+    "name": "troll crossing",
+    "x": 468.8131103515625,
+    "y": 472.9803466796875
+  },
+  {
+    "type": "cave",
+    "name": "red goblin cave",
+    "x": 441.72613525390625,
+    "y": 421.9317932128906
+  },
+  {
+    "type": "cave",
+    "name": "eerie cavern",
+    "x": 371.9250793457031,
+    "y": 343.7962646484375
+  },
+  {
+    "type": "cave",
+    "name": "floral cavern",
+    "x": 407.34649658203125,
+    "y": 320.87652587890625
+  },
+  {
+    "type": "cave",
+    "name": "red caverns",
+    "x": 441.72613525390625,
+    "y": 302.1239929199219
+  },
+  {
+    "type": "cave",
+    "name": "small cave",
+    "x": 297.956787109375,
+    "y": 359.4233703613281
+  },
+  {
+    "type": "cave",
+    "name": "narrow cave",
+    "x": 278.1624450683594,
+    "y": 268.78619384765625
+  },
+  {
+    "type": "forest",
+    "name": "felled pines",
+    "x": 197.9433135986328,
+    "y": 296.91497802734375
+  },
+  {
+    "type": "forest",
+    "name": "pchre pines",
+    "x": 229.19752502441406,
+    "y": 318.79290771484375
+  },
+  {
+    "type": "forest",
+    "name": "hunter's lodge",
+    "x": 221.90487670898438,
+    "y": 268.78619384765625
+  },
+  {
+    "type": "forest",
+    "name": "ravaged farm",
+    "x": 250.03366088867188,
+    "y": 291.7059326171875
+  },
+  {
+    "type": "forest",
+    "name": "tunnel pines",
+    "x": 215.65402221679688,
+    "y": 232.32293701171875
+  },
+  {
+    "type": "forest",
+    "name": "deadshot pines",
+    "x": 254.2008819580078,
+    "y": 246.90823364257812
+  },
+  {
+    "type": "forest",
+    "name": "the odd lumberyard",
+    "x": 263.5771484375,
+    "y": 212.5286102294922
+  },
+  {
+    "type": "forest",
+    "name": "ochre pines",
+    "x": 308.3748474121094,
+    "y": 265.6607666015625
+  },
+  {
+    "type": "forest",
+    "name": "dying woods",
+    "x": 324.001953125,
+    "y": 308.3748474121094
+  },
+  {
+    "type": "forest",
+    "name": "brekar woods",
+    "x": 356.2979736328125,
+    "y": 316.70928955078125
+  },
+  {
+    "type": "forest",
+    "name": "red caverns",
+    "x": 379.21771240234375,
+    "y": 281.2878723144531
+  },
+  {
+    "type": "forest",
+    "name": "hammerhand clan",
+    "x": 588.6209106445312,
+    "y": 545.9067993164062
+  },
+  {
+    "type": "forest",
+    "name": "secretive stranger",
+    "x": 613.624267578125,
+    "y": 569.8683471679688
+  },
+  {
+    "type": "forest",
+    "name": "invaded orchard",
+    "x": 654.2547607421875,
+    "y": 551.1158447265625
+  },
+  {
+    "type": "forest",
+    "name": "the great library",
+    "x": 596.9553833007812,
+    "y": 619.8751220703125
+  },
+  {
+    "type": "ruins",
+    "name": "overrun ruins",
+    "x": 194.81788635253906,
+    "y": 342.7544860839844
+  },
+  {
+    "type": "ruins",
+    "name": "ruins of korl",
+    "x": 236.49017333984375,
+    "y": 357.33978271484375
+  },
+  {
+    "type": "barricade",
+    "name": "goblin stockade",
+    "x": 202.11053466796875,
+    "y": 389.6357727050781
+  },
+  {
+    "type": "barricade",
+    "name": "forest troll fort",
+    "x": 446.9351501464844,
+    "y": 574.0355834960938
+  },
+  {
+    "type": "barricade",
+    "name": "goblin stockade",
+    "x": 437.55889892578125,
+    "y": 347.9635009765625
+  },
+  {
+    "type": "ruins",
+    "name": "ruins of remhar",
+    "x": 282.3296813964844,
+    "y": 306.2912292480469
+  },
+  {
+    "type": "ruins",
+    "name": "the odd ruins",
+    "x": 334.4200134277344,
+    "y": 351.08892822265625
+  },
+  {
+    "type": "ruins",
+    "name": "humble ruins",
+    "x": 384.4267578125,
+    "y": 549.0322265625
+  },
+  {
+    "type": "ruins",
+    "name": "muddled ruins",
+    "x": 466.7294921875,
+    "y": 521.9452514648438
+  },
+  {
+    "type": "ruins",
+    "name": "tricky ledger",
+    "x": 506.3181457519531,
+    "y": 560.4921264648438
+  },
+  {
+    "type": "ruins",
+    "name": "five tower beacons",
+    "x": 552.1576538085938,
+    "y": 584.4536743164062
+  },
+  {
+    "type": "ruins",
+    "name": "pentarunes",
+    "x": 639.66943359375,
+    "y": 606.3316040039062
+  },
+  {
+    "type": "ruins",
+    "name": "concealed ruins",
+    "x": 676.1326904296875,
+    "y": 632.3767700195312
+  },
+  {
+    "type": "ruins",
+    "name": "concealed ruins",
+    "x": 728.2230224609375,
+    "y": 629.2513427734375
+  },
+  {
+    "type": "desert",
+    "name": "quiet waste",
+    "x": 358.3815612792969,
+    "y": 376.09228515625
+  },
+  {
+    "type": "desert",
+    "name": "arid dunes",
+    "x": 385.46856689453125,
+    "y": 391.7193908691406
+  },
+  {
+    "type": "desert",
+    "name": "arid dunes",
+    "x": 407.34649658203125,
+    "y": 362.5487976074219
+  },
+  {
+    "type": "desert",
+    "name": "red goblin camp",
+    "x": 452.1441955566406,
+    "y": 376.09228515625
+  },
+  {
+    "type": "desert",
+    "name": "red goblin camp",
+    "x": 469.85491943359375,
+    "y": 406.3046875
+  },
+  {
+    "type": "desert",
+    "name": "braved camp",
+    "x": 496.94189453125,
+    "y": 438.6007080078125
+  },
+  {
+    "type": "desert",
+    "name": "fertile sands",
+    "x": 512.5689697265625,
+    "y": 478.1893615722656
+  },
+  {
+    "type": "desert",
+    "name": "concealed dunes",
+    "x": 538.6141967773438,
+    "y": 508.4017639160156
+  },
+  {
+    "type": "ruins",
+    "name": "pivotal ruins",
+    "x": 507.3599548339844,
+    "y": 516.7362060546875
+  },
+  {
+    "type": "city",
+    "name": "hardy farm",
+    "x": 544.864990234375,
+    "y": 550.0740356445312
+  },
+  {
+    "type": "cave",
+    "name": "fiery flora",
+    "x": 574.0355834960938,
+    "y": 512.5689697265625
+  },
+  {
+    "type": "cave",
+    "name": "cave",
+    "x": 563.6175537109375,
+    "y": 468.8131103515625
+  },
+  {
+    "type": "cave",
+    "name": "putrid tunnel",
+    "x": 616.7496948242188,
+    "y": 500.06732177734375
+  },
+  {
+    "type": "city",
+    "name": "bizzare hermit",
+    "x": 686.5507202148438,
+    "y": 581.3282470703125
+  },
+  {
+    "type": "city",
+    "name": "bapsy's installation",
+    "x": 530.2797241210938,
+    "y": 442.7679443359375
+  },
+  {
+    "type": "ruins",
+    "name": "labourer's stockade",
+    "x": 304.2076110839844,
+    "y": 229.19752502441406
+  },
+  {
+    "type": "ruins",
+    "name": "peaceful glade",
+    "x": 352.1307373046875,
+    "y": 246.90823364257812
+  },
+  {
+    "type": "ruins",
+    "name": "orc ruins",
+    "x": 337.5454406738281,
+    "y": 208.3613739013672
+  },
+  {
+    "type": "ruins",
+    "name": "fenatic ruins",
+    "x": 265.6607666015625,
+    "y": 165.6472930908203
+  },
+  {
+    "type": "ruins",
+    "name": "puzzled ruins",
+    "x": 305.2494201660156,
+    "y": 141.6857452392578
+  },
+  {
+    "type": "ruins",
+    "name": "bewitched ruins",
+    "x": 365.6742248535156,
+    "y": 185.44163513183594
+  },
+  {
+    "type": "ruins",
+    "name": "argothirs' rest",
+    "x": 445.8933410644531,
+    "y": 244.82461547851562
+  },
+  {
+    "type": "ruins",
+    "name": "red rock ruins",
+    "x": 544.864990234375,
+    "y": 353.17254638671875
+  },
+  {
+    "type": "ruins",
+    "name": "concealed ruins",
+    "x": 880.3268432617188,
+    "y": 624.0423583984375
+  },
+  {
+    "type": "ruins",
+    "name": "bolis' ruins",
+    "x": 737.5993041992188,
+    "y": 408.3883056640625
+  },
+  {
+    "type": "ruins",
+    "name": "excavated beacon",
+    "x": 774.0625,
+    "y": 417.7645568847656
+  },
+  {
+    "type": "ruins",
+    "name": "swampy ruins",
+    "x": 812.609375,
+    "y": 353.17254638671875
+  },
+  {
+    "type": "ruins",
+    "name": "uderest's tower",
+    "x": 515.6943969726562,
+    "y": 44.79769515991211
+  },
+  {
+    "type": "ruins",
+    "name": "snowbeard's ruins",
+    "x": 643.836669921875,
+    "y": 122.93321228027344
+  },
+  {
+    "type": "ruins",
+    "name": "forthgrit",
+    "x": 716.7631225585938,
+    "y": 63.55022048950195
+  },
+  {
+    "type": "ruins",
+    "name": "concealed ruins",
+    "x": 803.2330932617188,
+    "y": 58.3411865234375
+  },
+  {
+    "type": "ruins",
+    "name": "tricky ruble",
+    "x": 780.3133544921875,
+    "y": 86.469970703125
+  },
+  {
+    "type": "ruins",
+    "name": "bor's fort",
+    "x": 652.171142578125,
+    "y": 257.3262939453125
+  },
+  {
+    "type": "ruins",
+    "name": "resistance rockies",
+    "x": 626.1259765625,
+    "y": 325.04376220703125
+  },
+  {
+    "type": "ruins",
+    "name": "deceived ruins",
+    "x": 659.4637451171875,
+    "y": 304.2076110839844
+  },
+  {
+    "type": "ruins",
+    "name": "mascom westgate",
+    "x": 694.8851928710938,
+    "y": 324.001953125
+  },
+  {
+    "type": "ruins",
+    "name": "shifting ruins",
+    "x": 719.8885498046875,
+    "y": 288.58050537109375
+  },
+  {
+    "type": "ruins",
+    "name": "autumn beacon",
+    "x": 748.017333984375,
+    "y": 264.61895751953125
+  },
+  {
+    "type": "ruins",
+    "name": "concealed ruins",
+    "x": 780.3133544921875,
+    "y": 252.1172637939453
+  },
+  {
+    "type": "city",
+    "name": "weathered town",
+    "x": 502.15093994140625,
+    "y": 269.8280029296875
+  },
+  {
+    "type": "city",
+    "name": "barricaded town",
+    "x": 416.7227478027344,
+    "y": 101.05526733398438
+  },
+  {
+    "type": "city",
+    "name": "snowy howel",
+    "x": 540.69775390625,
+    "y": 64.59202575683594
+  },
+  {
+    "type": "city",
+    "name": "icefield settlement",
+    "x": 819.9020385742188,
+    "y": 93.76261901855469
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 780.3133544921875,
+    "y": 301.0821838378906
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 742.808349609375,
+    "y": 330.2527770996094
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 719.8885498046875,
+    "y": 358.3815612792969
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 770.9371337890625,
+    "y": 365.6742248535156
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 785.5223999023438,
+    "y": 333.3782043457031
+  },
+  {
+    "type": "swamp",
+    "name": "sulphuric mire",
+    "x": 820.94384765625,
+    "y": 318.79290771484375
+  },
+  {
+    "type": "barricade",
+    "name": "fort kluk",
+    "x": 297.956787109375,
+    "y": 184.3998260498047
+  },
+  {
+    "type": "barricade",
+    "name": "desecrated fort",
+    "x": 394.8448181152344,
+    "y": 211.48680114746094
+  },
+  {
+    "type": "barricade",
+    "name": "orc stronghold",
+    "x": 396.9284362792969,
+    "y": 166.68910217285156
+  },
+  {
+    "type": "barricade",
+    "name": "blue skin camp",
+    "x": 388.5939636230469,
+    "y": 83.34455108642578
+  },
+  {
+    "type": "barricade",
+    "name": "orc stronghold",
+    "x": 585.4954833984375,
+    "y": 329.2109680175781
+  },
+  {
+    "type": "barricade",
+    "name": "outrider fort",
+    "x": 735.5156860351562,
+    "y": 501.109130859375
+  },
+  {
+    "type": "barricade",
+    "name": "death fort",
+    "x": 684.4671630859375,
+    "y": 267.744384765625
+  },
+  {
+    "type": "barricade",
+    "name": "black blood fort",
+    "x": 788.6478271484375,
+    "y": 564.6593627929688
+  },
+  {
+    "type": "barricade",
+    "name": "black blood fort",
+    "x": 859.49072265625,
+    "y": 547.9904174804688
+  },
+  {
+    "type": "barricade",
+    "name": "black blood fort",
+    "x": 844.9053955078125,
+    "y": 593.8299560546875
+  },
+  {
+    "type": "forest",
+    "name": "tribeacon forest",
+    "x": 338.5872497558594,
+    "y": 144.8111572265625
+  },
+  {
+    "type": "forest",
+    "name": "weathered snowfield",
+    "x": 380.259521484375,
+    "y": 132.30947875976562
+  },
+  {
+    "type": "forest",
+    "name": "blue skin camp",
+    "x": 419.8481750488281,
+    "y": 63.55022048950195
+  },
+  {
+    "type": "forest",
+    "name": "black pines",
+    "x": 457.3532409667969,
+    "y": 90.63719940185547
+  },
+  {
+    "type": "forest",
+    "name": "icefield",
+    "x": 459.4368591308594,
+    "y": 48.96492385864258
+  },
+  {
+    "type": "forest",
+    "name": "beastmaster's camp",
+    "x": 492.774658203125,
+    "y": 61.46660614013672
+  },
+  {
+    "type": "forest",
+    "name": "pot hole pines",
+    "x": 436.51708984375,
+    "y": 196.90150451660156
+  },
+  {
+    "type": "forest",
+    "name": "gloot's tower",
+    "x": 456.3114318847656,
+    "y": 165.6472930908203
+  },
+  {
+    "type": "forest",
+    "name": "redbutt's camp",
+    "x": 471.93853759765625,
+    "y": 192.73428344726562
+  },
+  {
+    "type": "forest",
+    "name": "wolf tamer camp",
+    "x": 408.3883056640625,
+    "y": 254.2008819580078
+  },
+  {
+    "type": "forest",
+    "name": "fire-bite's domain",
+    "x": 580.2864379882812,
+    "y": 52.0903434753418
+  },
+  {
+    "type": "forest",
+    "name": "cotton flush",
+    "x": 592.7881469726562,
+    "y": 83.34455108642578
+  },
+  {
+    "type": "forest",
+    "name": "desolate town",
+    "x": 625.0841674804688,
+    "y": 53.13215255737305
+  },
+  {
+    "type": "forest",
+    "name": "ice druid camp",
+    "x": 640.7112426757812,
+    "y": 86.469970703125
+  },
+  {
+    "type": "forest",
+    "name": "lingering blue camp",
+    "x": 669.8818359375,
+    "y": 60.424800872802734
+  },
+  {
+    "type": "forest",
+    "name": "icefield",
+    "x": 676.1326904296875,
+    "y": 117.72418212890625
+  },
+  {
+    "type": "forest",
+    "name": "icefield",
+    "x": 709.4705200195312,
+    "y": 101.05526733398438
+  },
+  {
+    "type": "forest",
+    "name": "icefield",
+    "x": 744.8919067382812,
+    "y": 86.469970703125
+  },
+  {
+    "type": "forest",
+    "name": "isolated cottage",
+    "x": 666.7564086914062,
+    "y": 148.9783935546875
+  },
+  {
+    "type": "forest",
+    "name": "blue camp",
+    "x": 708.4287109375,
+    "y": 139.6021270751953
+  },
+  {
+    "type": "forest",
+    "name": "protruding ruins",
+    "x": 749.0591430664062,
+    "y": 126.05863189697266
+  },
+  {
+    "type": "forest",
+    "name": "icefield",
+    "x": 802.1913452148438,
+    "y": 125.01683044433594
+  },
+  {
+    "type": "forest",
+    "name": "sloppy icefield",
+    "x": 689.6761474609375,
+    "y": 171.89813232421875
+  },
+  {
+    "type": "forest",
+    "name": "worg den",
+    "x": 737.5993041992188,
+    "y": 169.8145294189453
+  },
+  {
+    "type": "forest",
+    "name": "black worg pines",
+    "x": 781.3551635742188,
+    "y": 154.1874237060547
+  },
+  {
+    "type": "forest",
+    "name": "taiga",
+    "x": 690.7179565429688,
+    "y": 212.5286102294922
+  },
+  {
+    "type": "forest",
+    "name": "taiga",
+    "x": 721.97216796875,
+    "y": 206.27777099609375
+  },
+  {
+    "type": "forest",
+    "name": "taiga",
+    "x": 769.8953247070312,
+    "y": 195.8596954345703
+  },
+  {
+    "type": "forest",
+    "name": "pines",
+    "x": 717.804931640625,
+    "y": 243.78282165527344
+  },
+  {
+    "type": "cave",
+    "name": "concealed cavern",
+    "x": 327.12738037109375,
+    "y": 114.59876251220703
+  },
+  {
+    "type": "cave",
+    "name": "furious cavern",
+    "x": 463.60406494140625,
+    "y": 272.9533996582031
+  },
+  {
+    "type": "cave",
+    "name": "ice cleaved cave",
+    "x": 441.72613525390625,
+    "y": 138.56031799316406
+  },
+  {
+    "type": "cave",
+    "name": "ice slug cave",
+    "x": 469.85491943359375,
+    "y": 120.84960174560547
+  },
+  {
+    "type": "cave",
+    "name": "crawler cave",
+    "x": 510.4853820800781,
+    "y": 104.1806869506836
+  },
+  {
+    "type": "cave",
+    "name": "adamantine mine",
+    "x": 557.36669921875,
+    "y": 104.1806869506836
+  },
+  {
+    "type": "cave",
+    "name": "mining site",
+    "x": 491.73284912109375,
+    "y": 153.14561462402344
+  },
+  {
+    "type": "cave",
+    "name": "ice slug cave",
+    "x": 533.4051513671875,
+    "y": 133.35128784179688
+  },
+  {
+    "type": "cave",
+    "name": "crawler queen cavern",
+    "x": 568.8265991210938,
+    "y": 128.14224243164062
+  },
+  {
+    "type": "cave",
+    "name": "blue skin mine",
+    "x": 611.5406494140625,
+    "y": 141.6857452392578
+  },
+  {
+    "type": "cave",
+    "name": "hidden cavern",
+    "x": 501.109130859375,
+    "y": 192.73428344726562
+  },
+  {
+    "type": "cave",
+    "name": "iced rune hall",
+    "x": 534.4469604492188,
+    "y": 169.8145294189453
+  },
+  {
+    "type": "cave",
+    "name": "ice slug cave",
+    "x": 584.4536743164062,
+    "y": 170.85633850097656
+  },
+  {
+    "type": "cave",
+    "name": "concealed cave",
+    "x": 630.2931518554688,
+    "y": 181.27439880371094
+  },
+  {
+    "type": "cave",
+    "name": "rich cavern",
+    "x": 518.81982421875,
+    "y": 225.03028869628906
+  },
+  {
+    "type": "cave",
+    "name": "gesdun's ruins",
+    "x": 549.0322265625,
+    "y": 200.0269317626953
+  },
+  {
+    "type": "cave",
+    "name": "heated cavern",
+    "x": 628.2095336914062,
+    "y": 219.82125854492188
+  },
+  {
+    "type": "cave",
+    "name": "expansive cavern",
+    "x": 517.7780151367188,
+    "y": 380.259521484375
+  },
+  {
+    "type": "cave",
+    "name": "concealed cave",
+    "x": 481.3147888183594,
+    "y": 595.91357421875
+  },
+  {
+    "type": "cave",
+    "name": "concealed cave",
+    "x": 642.7948608398438,
+    "y": 646.9620971679688
+  },
+  {
+    "type": "cave",
+    "name": "cave",
+    "x": 580.2864379882812,
+    "y": 418.8063659667969
+  },
+  {
+    "type": "cave",
+    "name": "cave",
+    "x": 599.0389404296875,
+    "y": 456.3114318847656
+  },
+  {
+    "type": "cave",
+    "name": "cave",
+    "x": 646.9620971679688,
+    "y": 460.4786376953125
+  },
+  {
+    "type": "cave",
+    "name": "cave",
+    "x": 620.9169311523438,
+    "y": 426.0990295410156
+  },
+  {
+    "type": "cave",
+    "name": "treasure hall",
+    "x": 864.69970703125,
+    "y": 468.8131103515625
+  },
+  {
+    "type": "final",
+    "name": "rothgar",
+    "x": 661.54736328125,
+    "y": 412.5555419921875
+  },
+  {
+    "type": "desert",
+    "name": "riddled sands",
+    "x": 537.5723876953125,
+    "y": 265.6607666015625
+  },
+  {
+    "type": "desert",
+    "name": "fringe sands",
+    "x": 577.1610107421875,
+    "y": 253.15907287597656
+  },
+  {
+    "type": "desert",
+    "name": "defensive dunes",
+    "x": 615.7078857421875,
+    "y": 248.99185180664062
+  },
+  {
+    "type": "desert",
+    "name": "hostaged camp",
+    "x": 495.90008544921875,
+    "y": 302.1239929199219
+  },
+  {
+    "type": "desert",
+    "name": "refug's domain",
+    "x": 535.48876953125,
+    "y": 297.956787109375
+  },
+  {
+    "type": "desert",
+    "name": "begrudging sans",
+    "x": 576.1192016601562,
+    "y": 288.58050537109375
+  },
+  {
+    "type": "desert",
+    "name": "wild dwarf dunes",
+    "x": 618.8333129882812,
+    "y": 284.4132995605469
+  },
+  {
+    "type": "desert",
+    "name": "red wasteland",
+    "x": 472.9803466796875,
+    "y": 330.2527770996094
+  },
+  {
+    "type": "desert",
+    "name": "red encampment",
+    "x": 507.3599548339844,
+    "y": 338.5872497558594
+  },
+  {
+    "type": "desert",
+    "name": "overrun village",
+    "x": 483.3984069824219,
+    "y": 370.8832702636719
+  },
+  {
+    "type": "desert",
+    "name": "howling dunes",
+    "x": 525.0706787109375,
+    "y": 411.51373291015625
+  },
+  {
+    "type": "desert",
+    "name": "first ruins",
+    "x": 557.36669921875,
+    "y": 392.7611999511719
+  },
+  {
+    "type": "desert",
+    "name": "second ruins",
+    "x": 589.6627197265625,
+    "y": 370.8832702636719
+  },
+  {
+    "type": "desert",
+    "name": "new settlement",
+    "x": 625.0841674804688,
+    "y": 384.4267578125
+  },
+  {
+    "type": "desert",
+    "name": "lone well",
+    "x": 660.5055541992188,
+    "y": 354.21435546875
+  },
+  {
+    "type": "desert",
+    "name": "conquered fort",
+    "x": 710.5123291015625,
+    "y": 452.1441955566406
+  },
+  {
+    "type": "desert",
+    "name": "outrider camp",
+    "x": 748.017333984375,
+    "y": 451.1023864746094
+  },
+  {
+    "type": "desert",
+    "name": "outrider camp",
+    "x": 694.8851928710938,
+    "y": 489.64923095703125
+  },
+  {
+    "type": "desert",
+    "name": "black blood camp",
+    "x": 706.3450927734375,
+    "y": 537.5723876953125
+  },
+  {
+    "type": "desert",
+    "name": "berserker camp",
+    "x": 751.1427612304688,
+    "y": 549.0322265625
+  },
+  {
+    "type": "desert",
+    "name": "black blood camp",
+    "x": 781.3551635742188,
+    "y": 506.3181457519531
+  },
+  {
+    "type": "desert",
+    "name": "black bloods waste",
+    "x": 813.6511840820312,
+    "y": 540.69775390625
+  },
+  {
+    "type": "desert",
+    "name": "fort orcthorns",
+    "x": 771.9789428710938,
+    "y": 608.4152221679688
+  },
+  {
+    "type": "desert",
+    "name": "black blood land",
+    "x": 810.5257568359375,
+    "y": 591.746337890625
+  },
+  {
+    "type": "desert",
+    "name": "black blood land",
+    "x": 828.2365112304688,
+    "y": 632.3767700195312
+  },
+  {
+    "type": "desert",
+    "name": "destroyed township",
+    "x": 890.7449340820312,
+    "y": 571.9519653320312
+  }
+];
+        const svg = d3.selectAll("#map");
+
+        function update(){
+            const points = svg.selectAll("g").data(markers);
+            const g = points.enter()
+                .append("g")
+                    .attr("transform", (d,i) => `translate(${d.x},${d.y})`);
+            points.exit().remove();
+
+            g.append("circle")
+                .attr("class", "normal")
+                .attr("r", (d, i) => 15)
+                .on("click", (data, i) => {
+                    markers.splice(i, 1);
+                    update();
+                    d3.event.stopPropagation();
+                })
+                .on("mouseover", (data, i) => {
+                    console.log(i, data)
+                    d3.select(d3.event.target.parentNode).classed("active", true)
+                })
+                .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("active", false));
+            g.append("text")
+                .attr("dy", -16)
+                .attr("text-anchor", "middle")
+                .text((d,i) => d.name);
+        }
+        svg.append("image")
+            .attr("xlink:href", "map.png")
+            .attr("width", 1028)
+            .attr("height", 769)    
+            .on("click", (data, i) => {
+                const [x,y] = d3.mouse(svg.node());
+                const newPoint = {
+                    type: d3.select("#type").node().value,
+                    name: d3.select("#name").node().value,
+                    x: x,
+                    y: y
+                };
+                console.log(newPoint);
+                markers.push(newPoint);
+                update();
+            });
+        update();
+    </script>
+</body>
+</html>
