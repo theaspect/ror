@@ -107,6 +107,7 @@
                     <div><strong>Location: </strong><span id="info-location"></span></div>
                     <div><strong>Type: </strong><span id="info-type"></span></div>
                     <div><strong>Contain: </strong><span id="info-contain"></span></div>
+                    <div><strong>Comment: </strong><span id="info-comment"></span></div>
                 </div>
                 <div>
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -393,7 +394,8 @@
         {
           "type": "cave",
           "name": "gesdun's ruins",
-          "x": 549, "y": 200, "id": 52
+          "x": 549, "y": 200, "id": 52,
+          "comment": "ᛎUᛈᛞ ᛟᚩᛊᛗᛖᛏᚫ"
         },
         {
           "type": "forest",
@@ -1475,10 +1477,12 @@
                 document.getElementById('info-location').innerHTML = `<a href="#id/${marker.id}">#${marker.id} ${marker.name}</a>`;
                 document.getElementById('info-type').innerHTML = marker.type;
                 document.getElementById('info-contain').innerHTML = formatContain(marker);
+                document.getElementById('info-comment').innerHTML = marker.comment ? marker.comment : "";
             }else{
                 document.getElementById('info-location').innerHTML = "";
                 document.getElementById('info-type').innerHTML = "";
                 document.getElementById('info-contain').innerHTML = ""
+                document.getElementById('info-comment').innerHTML = "";
             }
         }
         update();
