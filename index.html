@@ -73,10 +73,10 @@
                 <h4>Region of Ruins Map v0.1</h4>
                 <div>
                     <h5>Filters</h5>
-                    <div>
+                    <p>
                         <strong>Terrain:</strong>
                         <select id="terrain" onchange="setHash('terrain', this.value)">
-                            <option value="" selected>none</option>
+                            <option value="" selected>Select terrain</option>
                             <option value="city">city</option>
                             <option value="forest">forest</option>
                             <option value="ruins">ruins</option>
@@ -87,16 +87,25 @@
                             <option value="home">Home</option>
                             <option value="rothgar">Rothgar</option>
                         </select>
-                    </div>
-                    <div>
+                    </p>
+                    <p>
+                            <strong>Contain:</strong>
+                            <select id="contain" onchange="setHash('contain', this.value)">
+                                <option value="" selected>Select item</option>
+                                <option value="narrow-beacon">Narrow beacon</option>
+                                <option value="wide-beacon">Wide beacon</option>
+                            </select>
+                    </p>
+                    <p>
                         <strong>Search:</strong>
                         <input id="search" onchange="setHash('search', this.value)" onkeyup="setHash('search', this.value)">
-                    </div>
+                    </p>
                 </div>
                 <div>
                     <h5>Info</h5>
                     <div><strong>Location: </strong><span id="info-location"></span></div>
                     <div><strong>Type: </strong><span id="info-type"></span></div>
+                    <div><strong>Contain: </strong><span id="info-contain"></span></div>
                 </div>
                 <div>
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -955,7 +964,10 @@
           "name": "quiet waste",
           "x": 358.3815612792969,
           "y": 376.09228515625,
-          "id": 119
+          "id": 119,
+          "contain": {
+              "narrow-beacon": 1
+          }
         },
         {
           "type": "desert",
@@ -1102,7 +1114,10 @@
           "name": "nameless ruins",
           "x": 153.14561462402344,
           "y": 427.1408386230469,
-          "id": 140
+          "id": 140,
+          "contain": {
+              "narrow-beacon": 1
+          }
         },
         {
           "type": "ruins",
@@ -1319,7 +1334,11 @@
           "name": "pivotal ruins",
           "x": 507.3599548339844,
           "y": 516.7362060546875,
-          "id": 171
+          "id": 171,
+          "contain": {
+              "narrow-beacon": 1,
+              "wide-beacon": 1
+          }
         },
         {
           "type": "cave",
@@ -1466,7 +1485,10 @@
           "name": "beacon pines",
           "x": 357.33978271484375,
           "y": 569.8683471679688,
-          "id": 192
+          "id": 192,
+          "contain": {
+              "narrow-beacon": 1
+          }
         },
         {
           "type": "forest",
@@ -1557,7 +1579,10 @@
           "name": "concealed cave",
           "x": 481.3147888183594,
           "y": 595.91357421875,
-          "id": 205
+          "id": 205,
+          "contain": {
+              "wide-beacon": 1
+          }
         },
         {
           "type": "forest",
@@ -1606,7 +1631,10 @@
           "name": "menam's ruins",
           "x": 447.9769592285156,
           "y": 615.7078857421875,
-          "id": 212
+          "id": 212,
+          "contain": {
+              "narrow-beacon": 1
+          }
         },
         {
           "type": "ruins",
@@ -1641,7 +1669,10 @@
           "name": "residual ruins",
           "x": 336.5036315917969,
           "y": 625.0841674804688,
-          "id": 217
+          "id": 217,
+          "contain": {
+              "narrow-beacon": 1
+          }
         },
         {
           "type": "ruins",
@@ -1774,7 +1805,10 @@
           "name": "hovering beacon",
           "x": 133.83396911621094,
           "y": 705.0528564453125,
-          "id": 236
+          "id": 236,
+          "contain": {
+              "narrow-beacon": 1
+          }
         }
       ];
         const svg = d3.selectAll("#map");
@@ -1835,6 +1869,23 @@
                 svg.selectAll("g").filter(data => data.name.indexOf(value)!=-1).classed("filtered", true);
             }
         }
+        function filterContain(value){
+            svg.selectAll("g").classed("filtered", false);
+            // Empty search
+            if(value){
+                svg.selectAll("g").filter(data => data.contain && data.contain[value]).classed("filtered", true);
+            }
+        }
+
+        function updateFilter(item, value){
+            ['terrain', 'search', 'contain'].forEach(e => {
+                if (e===item){
+                    document.getElementById(e).value = value;
+                } else{
+                    document.getElementById(e).value = ""
+                }
+            });
+        }
 
         function onHashChange(){
             console.log(location.hash);
@@ -1842,20 +1893,22 @@
             const {filter, value} = getHash();
             switch(filter){
                 case '#terrain':
-                    document.getElementById('terrain').value = value;
-                    document.getElementById('search').value = "";
+                    updateFilter('terrain', value);
                     filterTerrain(value);
                     break;
                 case '#id':
-                    document.getElementById('terrain').value = "";
-                    document.getElementById('search').value = "";
+                    updateFilter('id', value);
                     filterId(value);
                     setInfo(markers[value]);
                     break;
                 case "#search":
-                    document.getElementById('terrain').value = "";
-                    document.getElementById('search').value = value;
+                    updateFilter('search', value);
                     filterSearch(value);
+                    break;
+                case "#contain":
+                    updateFilter('contain', value);
+                    filterContain(value);
+                    break;
                 default:
                     console.log(`Unknown filter ${filter}`);
             }
@@ -1871,13 +1924,23 @@
                 return {filter:"", value:""};
             }
         }
+        function formatContain(marker){
+            var text = "";
+            if(marker && marker.contain){
+                Object.keys(marker.contain)
+                    .forEach((key) => text += `<div>&emsp;<strong>${key.replace("-"," ")}</strong> ${marker.contain[key]}</div>`)
+            }
+            return text;
+        }
         function setInfo(marker){
             if(marker){
                 document.getElementById('info-location').innerHTML = `<a href="#id/${marker.id}">#${marker.id} ${marker.name}</a>`;
                 document.getElementById('info-type').innerHTML = marker.type;
+                document.getElementById('info-contain').innerHTML = formatContain(marker);
             }else{
                 document.getElementById('info-location').innerHTML = "";
                 document.getElementById('info-type').innerHTML = "";
+                document.getElementById('info-contain').innerHTML = ""
             }
         }
         update();
