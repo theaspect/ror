@@ -25,15 +25,18 @@
             stroke-opacity: 0;
         }
         .filtered circle,
-        .hover circle{
+        .hover circle {
             stroke: red;
             stroke-width: 5;
             fill-opacity: 0;
             stroke-opacity: 0.4;
         }
+        .copy {
+            position: absolute;
+            bottom: 0;
+        }
     </style>
-
-    <title>Region of Ruins Map 0.1</title>
+    <title>Region of Ruins Map v0.1</title>
 </head>
 <body onhashchange="onHashChange()">
     <div class="container-fluid">
@@ -57,8 +60,9 @@
                 </select>
                 <br/>
                 <input id="name" /> -->
+                <h4>Region of Ruins Map v0.1</h4>
                 <div>
-                    <h4>Filters</h1>
+                    <h5>Filters</h5>
                     <div>
                         <strong>Terrain:</strong>
                         <select id="terrain" onchange="setHash('terrain', this.value)">
@@ -80,9 +84,21 @@
                     </div>
                 </div>
                 <div>
-                    <h4>Info</h1>
+                    <h5>Info</h5>
                     <div><strong>Location: </strong><span id="info-location"></span></div>
                     <div><strong>Type: </strong><span id="info-type"></span></div>
+                </div>
+                <div>
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({
+                        google_ad_client: "ca-pub-6295207818447103",
+                        enable_page_level_ads: true
+                    });
+                    </script>
+                </div>
+                <div class="copy">
+                    <div><small>Copyright &copy; 2017 <a href="mailto:ror@blzr.me">theaspect</a></small></div>
                 </div>
             </div>
         </div>
@@ -1792,7 +1808,7 @@
             g.append("text")
                 .attr("dy", -16)
                 .attr("text-anchor", "middle")
-                .text((d,i) => `${d.id}. ${d.name}`);
+                .text((d,i) => `#${d.id} ${d.name}`);
         }
         function filterTerrain(value){
             svg.selectAll("g").classed("filtered", false);
@@ -1847,11 +1863,11 @@
         }
         function setInfo(marker){
             if(marker){
-                document.getElementById('info-location').textContent = `${marker.id}. ${marker.name}`;
-                document.getElementById('info-type').textContent = marker.type;
+                document.getElementById('info-location').innerHTML = `<a href="#id/${marker.id}">#${marker.id} ${marker.name}</a>`;
+                document.getElementById('info-type').innerHTML = marker.type;
             }else{
-                document.getElementById('info-location').textContent = "";
-                document.getElementById('info-type').textContent = "";
+                document.getElementById('info-location').innerHTML = "";
+                document.getElementById('info-type').innerHTML = "";
             }
         }
         update();
