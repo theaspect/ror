@@ -1,7 +1,11 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Region of Ruins</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script src="https://d3js.org/d3.v5.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         text {
             opacity: 0;
@@ -25,26 +29,33 @@
             stroke-width: 5;
         }
     </style>
+
+    <title>Region of Ruins Map 0.1</title>
 </head>
 <body>
-    <div style="height: 100%">
-        <div>
-            <select id="type">
-                <option value="city">city</option>
-                <option value="forest">forest</option>
-                <option value="ruins">ruins</option>
-                <option value="cave">cave</option>
-                <option value="swamp">swamp</option>
-                <option value="desert">desert</option>
-                <option value="barricade">barricade</option>
-                <option value="home">Home</option>
-                <option value="final">final</option>
-            </select>
-            <input id="name" />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+                <svg id="map" 
+                    width="100%" viewBox="0 0 1028 769" 
+                    preserveAspectRatio="xMinYMin meet"></svg>
+            </div>
+            <div class="col-4">
+                <select id="type">
+                    <option value="city">city</option>  
+                    <option value="forest">forest</option>
+                    <option value="ruins">ruins</option>
+                    <option value="cave">cave</option>
+                    <option value="swamp">swamp</option>
+                    <option value="desert">desert</option>  
+                    <option value="fort">fort</option>
+                    <option value="home">Home</option>
+                    <option value="rothgar">Rothgar</option>
+                </select>
+                <br/>
+                <input id="name" />
+            </div>
         </div>
-        <svg id="map" 
-            height="95%" viewBox="0 0 1028 769" 
-            preserveAspectRatio="xMinYMin meet"></svg>
     </div>
     <script>
         // JSON.stringify(markers, null, "  ")
@@ -140,7 +151,7 @@
     "y": 593.5245361328125
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "blue skin fort",
     "x": 137.7132110595703,
     "y": 630.3773803710938
@@ -560,19 +571,19 @@
     "y": 357.33978271484375
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "goblin stockade",
     "x": 202.11053466796875,
     "y": 389.6357727050781
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "forest troll fort",
     "x": 446.9351501464844,
     "y": 574.0355834960938
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "goblin stockade",
     "x": 437.55889892578125,
     "y": 347.9635009765625
@@ -926,61 +937,61 @@
     "y": 318.79290771484375
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "fort kluk",
     "x": 297.956787109375,
     "y": 184.3998260498047
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "desecrated fort",
     "x": 394.8448181152344,
     "y": 211.48680114746094
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "orc stronghold",
     "x": 396.9284362792969,
     "y": 166.68910217285156
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "blue skin camp",
     "x": 388.5939636230469,
     "y": 83.34455108642578
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "orc stronghold",
     "x": 585.4954833984375,
     "y": 329.2109680175781
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "outrider fort",
     "x": 735.5156860351562,
     "y": 501.109130859375
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "death fort",
     "x": 684.4671630859375,
     "y": 267.744384765625
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "black blood fort",
     "x": 788.6478271484375,
     "y": 564.6593627929688
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "black blood fort",
     "x": 859.49072265625,
     "y": 547.9904174804688
   },
   {
-    "type": "barricade",
+    "type": "fort",
     "name": "black blood fort",
     "x": 844.9053955078125,
     "y": 593.8299560546875
@@ -1310,7 +1321,7 @@
     "y": 468.8131103515625
   },
   {
-    "type": "final",
+    "type": "rothgar",
     "name": "rothgar",
     "x": 661.54736328125,
     "y": 412.5555419921875
