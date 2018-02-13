@@ -89,13 +89,54 @@
                         </select>
                     </p>
                     <p>
-                            <strong>Contain:</strong>
-                            <select id="contain" onchange="setHash('contain', this.value)">
-                                <option value="" selected>Select item</option>
-                                <option value="narrow-beacon">Narrow beacon</option>
-                                <option value="wide-beacon">Wide beacon</option>
-                                <option value="gesdun-beacon">Gesdun beacon</option>
-                            </select>
+                        <strong>Contain:</strong>
+                        <select id="contain" onchange="setHash('contain', this.value)">
+                            <option value="" selected>Select item</option>
+                            <optgroup label="Beacons">
+                                <option value="beacon-narrow">Narrow beacon</option>
+                                <option value="beacon-wide">Wide beacon</option>
+                                <option value="beacon-gesdun">Gesdun beacon</option>
+                            </optgroup>
+                            <optgroup label="Foes">
+                                <option value="foe-goblins">Goblins</option>
+                                <option value="foe-kobolds">Kobolds</option>
+                                <option value="foe-orcs">Orcs</option>
+                                <option value="foe-wolves">Wolves</option>
+                                <option value="foe-poison-slime">Poison Slimes</option>
+                                <option value="foe-fire-slime">Fire Slimes</option>
+                                <option value="foe-troll">Trolls</option>
+                                <option value="foe-druids">Druids</option>
+                                <option value="foe-bosses">Bosses</option>
+                            </optgroup>
+                            <optgroup label="Resources">
+                                <option value="res-wood">Wood</option>
+                                <option value="res-food">Food</option>
+                                <option value="res-leather">Leather</option>
+                                <option value="res-stone">Stone</option>
+                                <option value="res-cotton">Cotton</option>
+                                <option value="res-coal">Coal</option>
+                                <option value="res-ore">Ore</option>
+                                <option value="res-copper">Copper</option>
+                                <option value="res-iron">Iron</option>
+                                <option value="res-bronze">Bronze</option>
+                                <option value="res-steel">Steel</option>
+                                <option value="res-adamantine">Adamantine</option>
+                            </optgroup>
+                            <optgroup label="Stockpiles">
+                                <option value="sp-wood">Wood</option>
+                                <option value="sp-food">Food</option>
+                                <option value="sp-leather">Leather</option>
+                                <option value="sp-stone">Stone</option>
+                                <option value="sp-cotton">Cotton</option>
+                                <option value="sp-coal">Coal</option>
+                                <option value="sp-ore">Ore</option>
+                                <option value="sp-copper">Copper</option>
+                                <option value="sp-iron">Iron</option>
+                                <option value="sp-bronze">Bronze</option>
+                                <option value="sp-steel">Steel</option>
+                                <option value="sp-adamantine">Adamantine</option>
+                            </optgroup>
+                        </select>
                     </p>
                     <p>
                         <strong>Search:</strong>
