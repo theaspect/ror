@@ -73,7 +73,7 @@
                 <svg id="map" width="100%" viewBox="0 0 1028 770" preserveAspectRatio="xMinYMin meet"></svg>
             </div>
             <div class="col-4">
-                <h4>Region of Ruins Map v0.1</h4>
+                <h4>Region of Ruins Map v0.2</h4>
                 <div>
                     <h5>Filters</h5>
                     <p>
@@ -265,7 +265,7 @@
             svg.selectAll("g").classed("filtered", false);
             // Empty search
             if (value) {
-                svg.selectAll("g").filter(data => data.name.indexOf(value) != -1).classed("filtered", true);
+                svg.selectAll("g").filter(data => fullTextSearch(data, value)).classed("filtered", true);
             }
         }
         function filterContain(value) {
@@ -276,6 +276,11 @@
             }
         }
 
+        function fullTextSearch(data, value) {
+            return String(data.id).indexOf(value) != -1
+                || data.name.toLowerCase().indexOf(value.toLowerCase()) != -1
+                || (data.comment ? data.comment.toLowerCase() : "").indexOf(value.toLowerCase()) != -1;
+        }
         function updateFilter(item, value) {
             ['terrain', 'search', 'contain'].forEach(e => {
                 if (e === item) {
@@ -313,7 +318,7 @@
             }
         }
         function getLink(_, id) {
-            return `<a href="#id/${id}" onmouseenter="highlightLink(${id}, true)" onmouseleave="highlightLink(${id}, false)">${markers[id].name}</a>`
+            return `<a href="#id/${id}" onmouseenter="highlightLink(${id}, true)" onmouseleave="highlightLink(${id}, false)">#${markers[id].id} ${markers[id].name}</a>`
         }
         function highlightLink(id, enter) {
             svg.selectAll("g").data(markers).filter(data => data.id == id).classed("highlight", enter);
