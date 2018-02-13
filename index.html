@@ -277,7 +277,13 @@
                     console.log(`Unknown filter ${filter}`);
             }
         }
+        function getLink(_, id) {
+            return `<a href="#id/${id}" onmouseenter="highlightLink(${id}, true)" onmouseleave="highlightLink(${id}, false)">${markers[id].name}</a>`
         }
+        function highlightLink(id, enter) {
+            svg.selectAll("g").data(markers).filter(data => data.id == id).classed("highlight", enter);
+        }
+
         function setHash(filter, value) {
             location.hash = `${filter}/${value}`;
         }
@@ -298,13 +304,20 @@
             }
             return text;
         }
+        function formatComment(marker) {
+            if (marker && marker.comment) {
+                return marker.comment.replace(/#(\d+)/, getLink);
+            } else {
+                return "";
+            }
+        }
         function setInfo(marker) {
             if (marker) {
                 document.getElementById('info-location').innerHTML = `<a href="#id/${marker.id}">#${marker.id} ${marker.name}</a>`;
                 document.getElementById('info-type').innerHTML = marker.type;
                 document.getElementById('info-contain').innerHTML = formatContain(marker);
-                document.getElementById('info-comment').innerHTML = marker.comment ? marker.comment : "";
-            }else{
+                document.getElementById('info-comment').innerHTML = formatComment(marker);
+            } else {
                 document.getElementById('info-location').innerHTML = "";
                 document.getElementById('info-type').innerHTML = "";
                 document.getElementById('info-contain').innerHTML = ""
