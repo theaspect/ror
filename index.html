@@ -166,1232 +166,6 @@
         </div>
     </div>
     <script>
-        // Sort and enumerate
-        // JSON.stringify(markers.sort((a,b) => (a.y*1028+a.x)-(b.y*1028+b.x)).map((e,i) => {e.id=i; return e}), null, "  ")
-        const markers = [
-        {
-          "type": "ruins",
-          "name": "uderest's tower",
-          "x": 515, "y": 44, "id": 0
-        },
-        {
-          "type": "forest",
-          "name": "icefield",
-          "x": 459, "y": 48, "id": 1
-        },
-        {
-          "type": "forest",
-          "name": "fire-bite's domain",
-          "x": 580, "y": 52, "id": 2
-        },
-        {
-          "type": "forest",
-          "name": "desolate town",
-          "x": 625, "y": 53, "id": 3
-        },
-        {
-          "type": "ruins",
-          "name": "concealed ruins",
-          "x": 803, "y": 58, "id": 4
-        },
-        {
-          "type": "forest",
-          "name": "lingering blue camp",
-          "x": 669, "y": 60, "id": 5
-        },
-        {
-          "type": "forest",
-          "name": "beastmaster's camp",
-          "x": 492, "y": 61, "id": 6
-        },
-        {
-          "type": "forest",
-          "name": "blue skin camp",
-          "x": 419, "y": 63, "id": 7
-        },
-        {
-          "type": "ruins",
-          "name": "forthgrit",
-          "x": 716, "y": 63, "id": 8
-        },
-        {
-          "type": "city",
-          "name": "snowy howel",
-          "x": 540, "y": 64, "id": 9
-        },
-        {
-          "type": "fort",
-          "name": "blue skin camp",
-          "x": 388, "y": 83, "id": 10
-        },
-        {
-          "type": "forest",
-          "name": "cotton flush",
-          "x": 592, "y": 83, "id": 11
-        },
-        {
-          "type": "forest",
-          "name": "ice druid camp",
-          "x": 640, "y": 86, "id": 12
-        },
-        {
-          "type": "forest",
-          "name": "icefield",
-          "x": 744, "y": 86, "id": 13
-        },
-        {
-          "type": "ruins",
-          "name": "tricky ruble",
-          "x": 780, "y": 86, "id": 14
-        },
-        {
-          "type": "forest",
-          "name": "black pines",
-          "x": 457, "y": 90, "id": 15
-        },
-        {
-          "type": "city",
-          "name": "icefield settlement",
-          "x": 819, "y": 93, "id": 16
-        },
-        {
-          "type": "city",
-          "name": "barricaded town",
-          "x": 416, "y": 101, "id": 17
-        },
-        {
-          "type": "forest",
-          "name": "icefield",
-          "x": 709, "y": 101, "id": 18
-        },
-        {
-          "type": "cave",
-          "name": "crawler cave",
-          "x": 510, "y": 104, "id": 19
-        },
-        {
-          "type": "cave",
-          "name": "adamantine mine",
-          "x": 557, "y": 104, "id": 20
-        },
-        {
-          "type": "cave",
-          "name": "concealed cavern",
-          "x": 327, "y": 114, "id": 21
-        },
-        {
-          "type": "forest",
-          "name": "icefield",
-          "x": 676, "y": 117, "id": 22
-        },
-        {
-          "type": "cave",
-          "name": "ice slug cave",
-          "x": 469, "y": 120, "id": 23
-        },
-        {
-          "type": "ruins",
-          "name": "snowbeard's ruins",
-          "x": 643, "y": 122, "id": 24
-        },
-        {
-          "type": "forest",
-          "name": "icefield",
-          "x": 802, "y": 125, "id": 25
-        },
-        {
-          "type": "forest",
-          "name": "protruding ruins",
-          "x": 749, "y": 126, "id": 26
-        },
-        {
-          "type": "cave",
-          "name": "crawler queen cavern",
-          "x": 568, "y": 128, "id": 27
-        },
-        {
-          "type": "forest",
-          "name": "weathered snowfield",
-          "x": 380, "y": 132, "id": 28
-        },
-        {
-          "type": "cave",
-          "name": "ice slug cave",
-          "x": 533, "y": 133, "id": 29
-        },
-        {
-          "type": "cave",
-          "name": "ice cleaved cave",
-          "x": 441, "y": 138, "id": 30
-        },
-        {
-          "type": "forest",
-          "name": "blue camp",
-          "x": 708, "y": 139, "id": 31
-        },
-        {
-          "type": "ruins",
-          "name": "puzzled ruins",
-          "x": 305, "y": 141, "id": 32
-        },
-        {
-          "type": "cave",
-          "name": "blue skin mine",
-          "x": 611, "y": 141, "id": 33
-        },
-        {
-          "type": "forest",
-          "name": "tribeacon forest",
-          "x": 338, "y": 144, "id": 34,
-          "contain": {
-            "gesdun-beacon": 1
-          }
-        },
-        {
-          "type": "forest",
-          "name": "isolated cottage",
-          "x": 666, "y": 148, "id": 35
-        },
-        {
-          "type": "cave",
-          "name": "mining site",
-          "x": 491, "y": 153, "id": 36
-        },
-        {
-          "type": "forest",
-          "name": "black worg pines",
-          "x": 781, "y": 154, "id": 37
-        },
-        {
-          "type": "ruins",
-          "name": "fenatic ruins",
-          "x": 265, "y": 165, "id": 38
-        },
-        {
-          "type": "forest",
-          "name": "gloot's tower",
-          "x": 456, "y": 165, "id": 39
-        },
-        {
-          "type": "fort",
-          "name": "orc stronghold",
-          "x": 396, "y": 166, "id": 40
-        },
-        {
-          "type": "cave",
-          "name": "iced rune hall",
-          "x": 534, "y": 169, "id": 41
-        },
-        {
-          "type": "forest",
-          "name": "worg den",
-          "x": 737, "y": 169, "id": 42
-        },
-        {
-          "type": "cave",
-          "name": "ice slug cave",
-          "x": 584, "y": 170, "id": 43
-        },
-        {
-          "type": "forest",
-          "name": "sloppy icefield",
-          "x": 689, "y": 171, "id": 44
-        },
-        {
-          "type": "cave",
-          "name": "concealed cave",
-          "x": 630, "y": 181, "id": 45
-        },
-        {
-          "type": "fort",
-          "name": "fort kluk",
-          "x": 297, "y": 184, "id": 46
-        },
-        {
-          "type": "ruins",
-          "name": "bewitched ruins",
-          "x": 365, "y": 185, "id": 47
-        },
-        {
-          "type": "forest",
-          "name": "redbutt's camp",
-          "x": 471, "y": 192, "id": 48
-        },
-        {
-          "type": "cave",
-          "name": "hidden cavern",
-          "x": 501, "y": 192, "id": 49
-        },
-        {
-          "type": "forest",
-          "name": "taiga",
-          "x": 769, "y": 195, "id": 50
-        },
-        {
-          "type": "forest",
-          "name": "pot hole pines",
-          "x": 436, "y": 196, "id": 51
-        },
-        {
-          "type": "cave",
-          "name": "gesdun's ruins",
-          "x": 549, "y": 200, "id": 52,
-          "comment": "ᛎUᛈᛞ ᛟᚩᛊᛗᛖᛏᚫ"
-        },
-        {
-          "type": "forest",
-          "name": "taiga",
-          "x": 721, "y": 206, "id": 53
-        },
-        {
-          "type": "ruins",
-          "name": "orc ruins",
-          "x": 337, "y": 208, "id": 54
-        },
-        {
-          "type": "fort",
-          "name": "desecrated fort",
-          "x": 394, "y": 211, "id": 55
-        },
-        {
-          "type": "forest",
-          "name": "the odd lumberyard",
-          "x": 263, "y": 212, "id": 56
-        },
-        {
-          "type": "forest",
-          "name": "taiga",
-          "x": 690, "y": 212, "id": 57
-        },
-        {
-          "type": "cave",
-          "name": "gesdun's rest",
-          "x": 586, "y": 217, "id": 58,
-          "contain": {
-            "gesdun-beacon": 1
-          }
-        },
-        {
-          "type": "cave",
-          "name": "heated cavern",
-          "x": 628, "y": 219, "id": 59
-        },
-        {
-          "type": "cave",
-          "name": "rich cavern",
-          "x": 518, "y": 225, "id": 60
-        },
-        {
-          "type": "ruins",
-          "name": "labourer's stockade",
-          "x": 304, "y": 229, "id": 61
-        },
-        {
-          "type": "forest",
-          "name": "tunnel pines",
-          "x": 215, "y": 232, "id": 62
-        },
-        {
-          "type": "forest",
-          "name": "pines",
-          "x": 717, "y": 243, "id": 63
-        },
-        {
-          "type": "ruins",
-          "name": "argothirs' rest",
-          "x": 445, "y": 244, "id": 64
-        },
-        {
-          "type": "forest",
-          "name": "deadshot pines",
-          "x": 254, "y": 246, "id": 65
-        },
-        {
-          "type": "ruins",
-          "name": "peaceful glade",
-          "x": 352, "y": 246, "id": 66
-        },
-        {
-          "type": "desert",
-          "name": "defensive dunes",
-          "x": 615, "y": 248, "id": 67
-        },
-        {
-          "type": "ruins",
-          "name": "concealed ruins",
-          "x": 780, "y": 252, "id": 68
-        },
-        {
-          "type": "desert",
-          "name": "fringe sands",
-          "x": 577, "y": 253, "id": 69
-        },
-        {
-          "type": "city",
-          "name": "cotton farm",
-          "x": 185, "y": 254, "id": 70
-        },
-        {
-          "type": "forest",
-          "name": "wolf tamer camp",
-          "x": 408, "y": 254, "id": 71
-        },
-        {
-          "type": "ruins",
-          "name": "bor's fort",
-          "x": 652, "y": 257, "id": 72
-        },
-        {
-          "type": "ruins",
-          "name": "autumn beacon",
-          "x": 748, "y": 264, "id": 73
-        },
-        {
-          "type": "forest",
-          "name": "ochre pines",
-          "x": 308, "y": 265, "id": 74
-        },
-        {
-          "type": "desert",
-          "name": "riddled sands",
-          "x": 537, "y": 265, "id": 75
-        },
-        {
-          "type": "fort",
-          "name": "death fort",
-          "x": 684, "y": 267, "id": 76
-        },
-        {
-          "type": "forest",
-          "name": "hunter's lodge",
-          "x": 221, "y": 268, "id": 77
-        },
-        {
-          "type": "cave",
-          "name": "narrow cave",
-          "x": 278, "y": 268, "id": 78
-        },
-        {
-          "type": "city",
-          "name": "weathered town",
-          "x": 502, "y": 269, "id": 79
-        },
-        {
-          "type": "cave",
-          "name": "furious cavern",
-          "x": 463, "y": 272, "id": 80
-        },
-        {
-          "type": "forest",
-          "name": "red caverns",
-          "x": 379, "y": 281, "id": 81
-        },
-        {
-          "type": "desert",
-          "name": "wild dwarf dunes",
-          "x": 618, "y": 284, "id": 82
-        },
-        {
-          "type": "desert",
-          "name": "begrudging sans",
-          "x": 576, "y": 288, "id": 83
-        },
-        {
-          "type": "ruins",
-          "name": "shifting ruins",
-          "x": 719, "y": 288, "id": 84
-        },
-        {
-          "type": "forest",
-          "name": "ravaged farm",
-          "x": 250, "y": 291, "id": 85
-        },
-        {
-          "type": "forest",
-          "name": "felled pines",
-          "x": 197, "y": 296, "id": 86
-        },
-        {
-          "type": "desert",
-          "name": "refug's domain",
-          "x": 535, "y": 297, "id": 87
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 780, "y": 301, "id": 88
-        },
-        {
-          "type": "cave",
-          "name": "red caverns",
-          "x": 441, "y": 302, "id": 89
-        },
-        {
-          "type": "desert",
-          "name": "hostaged camp",
-          "x": 495, "y": 302, "id": 90
-        },
-        {
-          "type": "ruins",
-          "name": "deceived ruins",
-          "x": 659, "y": 304, "id": 91
-        },
-        {
-          "type": "ruins",
-          "name": "ruins of remhar",
-          "x": 282, "y": 306, "id": 92
-        },
-        {
-          "type": "forest",
-          "name": "dying woods",
-          "x": 324, "y": 308, "id": 93
-        },
-        {
-          "type": "forest",
-          "name": "brekar woods",
-          "x": 356, "y": 316, "id": 94
-        },
-        {
-          "type": "forest",
-          "name": "pchre pines",
-          "x": 229, "y": 318, "id": 95
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 820, "y": 318, "id": 96
-        },
-        {
-          "type": "cave",
-          "name": "floral cavern",
-          "x": 407, "y": 320, "id": 97
-        },
-        {
-          "type": "ruins",
-          "name": "mascom westgate",
-          "x": 694, "y": 324, "id": 98
-        },
-        {
-          "type": "ruins",
-          "name": "resistance rockies",
-          "x": 626, "y": 325, "id": 99
-        },
-        {
-          "type": "fort",
-          "name": "orc stronghold",
-          "x": 585, "y": 329, "id": 100
-        },
-        {
-          "type": "desert",
-          "name": "red wasteland",
-          "x": 472, "y": 330, "id": 101
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 742, "y": 330, "id": 102
-        },
-        {
-          "type": "city",
-          "name": "cotton farm",
-          "x": 260, "y": 332, "id": 103
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 785, "y": 333, "id": 104
-        },
-        {
-          "type": "desert",
-          "name": "red encampment",
-          "x": 507, "y": 338, "id": 105
-        },
-        {
-          "type": "ruins",
-          "name": "overrun ruins",
-          "x": 194, "y": 342, "id": 106
-        },
-        {
-          "type": "cave",
-          "name": "eerie cavern",
-          "x": 371, "y": 343, "id": 107
-        },
-        {
-          "type": "fort",
-          "name": "goblin stockade",
-          "x": 437, "y": 347, "id": 108
-        },
-        {
-          "type": "ruins",
-          "name": "the odd ruins",
-          "x": 334, "y": 351, "id": 109
-        },
-        {
-          "type": "ruins",
-          "name": "red rock ruins",
-          "x": 544, "y": 353, "id": 110
-        },
-        {
-          "type": "ruins",
-          "name": "swampy ruins",
-          "x": 812, "y": 353, "id": 111
-        },
-        {
-          "type": "desert",
-          "name": "lone well",
-          "x": 660, "y": 354, "id": 112
-        },
-        {
-          "type": "ruins",
-          "name": "ruins of korl",
-          "x": 236, "y": 357, "id": 113
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 719, "y": 358, "id": 114
-        },
-        {
-          "type": "cave",
-          "name": "small cave",
-          "x": 297, "y": 359, "id": 115
-        },
-        {
-          "type": "desert",
-          "name": "arid dunes",
-          "x": 407, "y": 362, "id": 116
-        },
-        {
-          "type": "swamp",
-          "name": "sulphuric mire",
-          "x": 770, "y": 365, "id": 117
-        },
-        {
-          "type": "desert",
-          "name": "overrun village",
-          "x": 483, "y": 370, "id": 118
-        },
-        {
-          "type": "desert",
-          "name": "second ruins",
-          "x": 589, "y": 370, "id": 119
-        },
-        {
-          "type": "desert",
-          "name": "quiet waste",
-          "x": 358, "y": 376, "id": 120,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        },
-        {
-          "type": "desert",
-          "name": "red goblin camp",
-          "x": 452, "y": 376, "id": 121
-        },
-        {
-          "type": "cave",
-          "name": "expansive cavern",
-          "x": 517, "y": 380, "id": 122
-        },
-        {
-          "type": "desert",
-          "name": "new settlement",
-          "x": 625, "y": 384, "id": 123
-        },
-        {
-          "type": "home",
-          "name": "campground",
-          "x": 266, "y": 385, "id": 124
-        },
-        {
-          "type": "city",
-          "name": "joe's farm",
-          "x": 321, "y": 388, "id": 125
-        },
-        {
-          "type": "fort",
-          "name": "goblin stockade",
-          "x": 202, "y": 389, "id": 126
-        },
-        {
-          "type": "desert",
-          "name": "arid dunes",
-          "x": 385, "y": 391, "id": 127
-        },
-        {
-          "type": "city",
-          "name": "desert town",
-          "x": 422, "y": 391, "id": 128
-        },
-        {
-          "type": "desert",
-          "name": "first ruins",
-          "x": 557, "y": 392, "id": 129
-        },
-        {
-          "type": "desert",
-          "name": "red goblin camp",
-          "x": 469, "y": 406, "id": 130
-        },
-        {
-          "type": "ruins",
-          "name": "bolis' ruins",
-          "x": 737, "y": 408, "id": 131
-        },
-        {
-          "type": "forest",
-          "name": "goblin encampment",
-          "x": 291, "y": 409, "id": 132
-        },
-        {
-          "type": "desert",
-          "name": "howling dunes",
-          "x": 525, "y": 411, "id": 133
-        },
-        {
-          "type": "rothgar",
-          "name": "rothgar",
-          "x": 661, "y": 412, "id": 134
-        },
-        {
-          "type": "ruins",
-          "name": "ruins of microlinia",
-          "x": 235, "y": 416, "id": 135
-        },
-        {
-          "type": "ruins",
-          "name": "excavated beacon",
-          "x": 774, "y": 417, "id": 136
-        },
-        {
-          "type": "cave",
-          "name": "cave",
-          "x": 580, "y": 418, "id": 137
-        },
-        {
-          "type": "forest",
-          "name": "quiet woods",
-          "x": 315, "y": 421, "id": 138
-        },
-        {
-          "type": "cave",
-          "name": "red goblin cave",
-          "x": 441, "y": 421, "id": 139
-        },
-        {
-          "type": "cave",
-          "name": "cave",
-          "x": 620, "y": 426, "id": 140
-        },
-        {
-          "type": "ruins",
-          "name": "nameless ruins",
-          "x": 153, "y": 427, "id": 141,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        },
-        {
-          "type": "ruins",
-          "name": "tower of gur",
-          "x": 192, "y": 429, "id": 142
-        },
-        {
-          "type": "cave",
-          "name": "mining cave",
-          "x": 400, "y": 429, "id": 143
-        },
-        {
-          "type": "forest",
-          "name": "bloodied forest",
-          "x": 352, "y": 431, "id": 144
-        },
-        {
-          "type": "desert",
-          "name": "braved camp",
-          "x": 496, "y": 438, "id": 145
-        },
-        {
-          "type": "forest",
-          "name": "howling forest",
-          "x": 267, "y": 442, "id": 146
-        },
-        {
-          "type": "city",
-          "name": "bapsy's installation",
-          "x": 530, "y": 442, "id": 147
-        },
-        {
-          "type": "desert",
-          "name": "outrider camp",
-          "x": 748, "y": 451, "id": 148
-        },
-        {
-          "type": "desert",
-          "name": "conquered fort",
-          "x": 710, "y": 452, "id": 149
-        },
-        {
-          "type": "cave",
-          "name": "cave",
-          "x": 599, "y": 456, "id": 150
-        },
-        {
-          "type": "cave",
-          "name": "slug infestation",
-          "x": 427, "y": 459, "id": 151
-        },
-        {
-          "type": "forest",
-          "name": "lumberyard",
-          "x": 231, "y": 460, "id": 152
-        },
-        {
-          "type": "cave",
-          "name": "cave",
-          "x": 646, "y": 460, "id": 153
-        },
-        {
-          "type": "city",
-          "name": "hovel",
-          "x": 296, "y": 464, "id": 154
-        },
-        {
-          "type": "cave",
-          "name": "troll cave",
-          "x": 389, "y": 465, "id": 155
-        },
-        {
-          "type": "cave",
-          "name": "cave",
-          "x": 563, "y": 468, "id": 156
-        },
-        {
-          "type": "cave",
-          "name": "treasure hall",
-          "x": 864, "y": 468, "id": 157
-        },
-        {
-          "type": "cave",
-          "name": "troll crossing",
-          "x": 468, "y": 472, "id": 158
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 183, "y": 475, "id": 159
-        },
-        {
-          "type": "desert",
-          "name": "fertile sands",
-          "x": 512, "y": 478, "id": 160
-        },
-        {
-          "type": "forest",
-          "name": "goblin forest",
-          "x": 257, "y": 483, "id": 161
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 140, "y": 486, "id": 162
-        },
-        {
-          "type": "desert",
-          "name": "outrider camp",
-          "x": 694, "y": 489, "id": 163
-        },
-        {
-          "type": "city",
-          "name": "hunters cottage",
-          "x": 182, "y": 498, "id": 164
-        },
-        {
-          "type": "cave",
-          "name": "putrid tunnel",
-          "x": 616, "y": 500, "id": 165
-        },
-        {
-          "type": "fort",
-          "name": "outrider fort",
-          "x": 735, "y": 501, "id": 166
-        },
-        {
-          "type": "cave",
-          "name": "crawler infestation",
-          "x": 434, "y": 505, "id": 167
-        },
-        {
-          "type": "desert",
-          "name": "black blood camp",
-          "x": 781, "y": 506, "id": 168
-        },
-        {
-          "type": "desert",
-          "name": "concealed dunes",
-          "x": 538, "y": 508, "id": 169
-        },
-        {
-          "type": "forest",
-          "name": "obed's grave",
-          "x": 221, "y": 512, "id": 170
-        },
-        {
-          "type": "cave",
-          "name": "fiery flora",
-          "x": 574, "y": 512, "id": 171
-        },
-        {
-          "type": "ruins",
-          "name": "pivotal ruins",
-          "x": 507, "y": 516, "id": 172,
-          "contain": {
-            "narrow-beacon": 1,
-            "wide-beacon": 1
-          }
-        },
-        {
-          "type": "cave",
-          "name": "lost city",
-          "x": 268, "y": 519, "id": 173
-        },
-        {
-          "type": "ruins",
-          "name": "muddled ruins",
-          "x": 466, "y": 521, "id": 174
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 166, "y": 523, "id": 175
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 118, "y": 524, "id": 176
-        },
-        {
-          "type": "forest",
-          "name": "conflicted pines",
-          "x": 442, "y": 537, "id": 177
-        },
-        {
-          "type": "desert",
-          "name": "black blood camp",
-          "x": 706, "y": 537, "id": 178
-        },
-        {
-          "type": "desert",
-          "name": "black bloods waste",
-          "x": 813, "y": 540, "id": 179
-        },
-        {
-          "type": "forest",
-          "name": "muddled ruins",
-          "x": 412, "y": 543, "id": 180
-        },
-        {
-          "type": "forest",
-          "name": "hammerhand clan",
-          "x": 588, "y": 545, "id": 181
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 185, "y": 546, "id": 182
-        },
-        {
-          "type": "fort",
-          "name": "black blood fort",
-          "x": 859, "y": 547, "id": 183
-        },
-        {
-          "type": "ruins",
-          "name": "humble ruins",
-          "x": 384, "y": 549, "id": 184
-        },
-        {
-          "type": "desert",
-          "name": "berserker camp",
-          "x": 751, "y": 549, "id": 185
-        },
-        {
-          "type": "cave",
-          "name": "small settlement",
-          "x": 286, "y": 550, "id": 186
-        },
-        {
-          "type": "city",
-          "name": "hardy farm",
-          "x": 544, "y": 550, "id": 187
-        },
-        {
-          "type": "forest",
-          "name": "invaded orchard",
-          "x": 654, "y": 551, "id": 188
-        },
-        {
-          "type": "swamp",
-          "name": "seeping bog",
-          "x": 141, "y": 552, "id": 189
-        },
-        {
-          "type": "cave",
-          "name": "floral cavern",
-          "x": 243, "y": 556, "id": 190
-        },
-        {
-          "type": "ruins",
-          "name": "tricky ledger",
-          "x": 506, "y": 560, "id": 191
-        },
-        {
-          "type": "fort",
-          "name": "black blood fort",
-          "x": 788, "y": 564, "id": 192
-        },
-        {
-          "type": "forest",
-          "name": "beacon pines",
-          "x": 357, "y": 569, "id": 193,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        },
-        {
-          "type": "forest",
-          "name": "secretive stranger",
-          "x": 613, "y": 569, "id": 194
-        },
-        {
-          "type": "desert",
-          "name": "destroyed township",
-          "x": 890, "y": 571, "id": 195
-        },
-        {
-          "type": "forest",
-          "name": "salted wastes",
-          "x": 207, "y": 574, "id": 196
-        },
-        {
-          "type": "fort",
-          "name": "forest troll fort",
-          "x": 446, "y": 574, "id": 197
-        },
-        {
-          "type": "ruins",
-          "name": "peculiar ruins",
-          "x": 313, "y": 575, "id": 198
-        },
-        {
-          "type": "forest",
-          "name": "kobold's village",
-          "x": 99, "y": 577, "id": 199
-        },
-        {
-          "type": "city",
-          "name": "bizzare hermit",
-          "x": 686, "y": 581, "id": 200
-        },
-        {
-          "type": "ruins",
-          "name": "five tower beacons",
-          "x": 552, "y": 584, "id": 201
-        },
-        {
-          "type": "forest",
-          "name": "murky grassland",
-          "x": 171, "y": 586, "id": 202
-        },
-        {
-          "type": "desert",
-          "name": "black blood land",
-          "x": 810, "y": 591, "id": 203
-        },
-        {
-          "type": "ruins",
-          "name": "tainted ruins",
-          "x": 133, "y": 593, "id": 204
-        },
-        {
-          "type": "fort",
-          "name": "black blood fort",
-          "x": 844, "y": 593, "id": 205
-        },
-        {
-          "type": "cave",
-          "name": "concealed cave",
-          "x": 481, "y": 595, "id": 206,
-          "contain": {
-            "wide-beacon": 1
-          }
-        },
-        {
-          "type": "forest",
-          "name": "overrun village",
-          "x": 410, "y": 597, "id": 207
-        },
-        {
-          "type": "city",
-          "name": "reclusive novel",
-          "x": 255, "y": 606, "id": 208
-        },
-        {
-          "type": "ruins",
-          "name": "pentarunes",
-          "x": 639, "y": 606, "id": 209
-        },
-        {
-          "type": "desert",
-          "name": "fort orcthorns",
-          "x": 771, "y": 608, "id": 210
-        },
-        {
-          "type": "city",
-          "name": "guarded town",
-          "x": 102, "y": 612, "id": 211
-        },
-        {
-          "type": "ruins",
-          "name": "orek's rest",
-          "x": 296, "y": 614, "id": 212
-        },
-        {
-          "type": "ruins",
-          "name": "menam's ruins",
-          "x": 447, "y": 615, "id": 213,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        },
-        {
-          "type": "ruins",
-          "name": "druid's ruins",
-          "x": 380, "y": 619, "id": 214
-        },
-        {
-          "type": "forest",
-          "name": "the great library",
-          "x": 596, "y": 619, "id": 215
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 205, "y": 621, "id": 216
-        },
-        {
-          "type": "ruins",
-          "name": "concealed ruins",
-          "x": 880, "y": 624, "id": 217
-        },
-        {
-          "type": "ruins",
-          "name": "residual ruins",
-          "x": 336, "y": 625, "id": 218,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        },
-        {
-          "type": "ruins",
-          "name": "concealed ruins",
-          "x": 728, "y": 629, "id": 219
-        },
-        {
-          "type": "fort",
-          "name": "blue skin fort",
-          "x": 137, "y": 630, "id": 220
-        },
-        {
-          "type": "forest",
-          "name": "sculptor's pines",
-          "x": 499, "y": 632, "id": 221
-        },
-        {
-          "type": "ruins",
-          "name": "concealed ruins",
-          "x": 676, "y": 632, "id": 222
-        },
-        {
-          "type": "desert",
-          "name": "black blood land",
-          "x": 828, "y": 632, "id": 223
-        },
-        {
-          "type": "ruins",
-          "name": "reshkar's outpost",
-          "x": 175, "y": 634, "id": 224
-        },
-        {
-          "type": "ruins",
-          "name": "invaded ruins",
-          "x": 276, "y": 644, "id": 225
-        },
-        {
-          "type": "ruins",
-          "name": "tall ruins",
-          "x": 85, "y": 646, "id": 226
-        },
-        {
-          "type": "cave",
-          "name": "concealed cave",
-          "x": 642, "y": 646, "id": 227
-        },
-        {
-          "type": "forest",
-          "name": "worg rider camp",
-          "x": 414, "y": 648, "id": 228
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 232, "y": 655, "id": 229
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 192, "y": 657, "id": 230
-        },
-        {
-          "type": "forest",
-          "name": "uderest's ruins",
-          "x": 458, "y": 664, "id": 231
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 307, "y": 669, "id": 232
-        },
-        {
-          "type": "ruins",
-          "name": "silent southern ruins",
-          "x": 117, "y": 670, "id": 233
-        },
-        {
-          "type": "ruins",
-          "name": "barricaded ruins",
-          "x": 157, "y": 670, "id": 234
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 259, "y": 678, "id": 235
-        },
-        {
-          "type": "forest",
-          "name": "unseemly wilds",
-          "x": 211, "y": 687, "id": 236
-        },
-        {
-          "type": "ruins",
-          "name": "hovering beacon",
-          "x": 133, "y": 705, "id": 237,
-          "contain": {
-            "narrow-beacon": 1
-          }
-        }
-      ];
         const svg = d3.selectAll("#map");
         svg.append("image")
             .attr("xlink:href", "map.png")
@@ -1526,8 +300,1239 @@
                 document.getElementById('info-comment').innerHTML = "";
             }
         }
-        update();
-        onHashChange();
+        function postInit() {
+            update();
+            onHashChange();
+        }
+
+        // Sort and enumerate
+        // JSON.stringify(markers.sort((a,b) => (a.y*1028+a.x)-(b.y*1028+b.x)).map((e,i) => {e.id=i; return e}), null, "  ")
+        const markers = [
+            {
+                "type": "ruins",
+                "name": "uderest's tower",
+                "x": 515, "y": 44, "id": 0,
+                "comment": ""
+            },
+            {
+                "type": "forest",
+                "name": "icefield",
+                "x": 459, "y": 48, "id": 1
+            },
+            {
+                "type": "forest",
+                "name": "fire-bite's domain",
+                "x": 580, "y": 52, "id": 2
+            },
+            {
+                "type": "forest",
+                "name": "desolate town",
+                "x": 625, "y": 53, "id": 3
+            },
+            {
+                "type": "ruins",
+                "name": "concealed ruins",
+                "x": 803, "y": 58, "id": 4
+            },
+            {
+                "type": "forest",
+                "name": "lingering blue camp",
+                "x": 669, "y": 60, "id": 5
+            },
+            {
+                "type": "forest",
+                "name": "beastmaster's camp",
+                "x": 492, "y": 61, "id": 6
+            },
+            {
+                "type": "forest",
+                "name": "blue skin camp",
+                "x": 419, "y": 63, "id": 7
+            },
+            {
+                "type": "ruins",
+                "name": "forthgrit",
+                "x": 716, "y": 63, "id": 8
+            },
+            {
+                "type": "city",
+                "name": "snowy howel",
+                "x": 540, "y": 64, "id": 9
+            },
+            {
+                "type": "fort",
+                "name": "blue skin camp",
+                "x": 388, "y": 83, "id": 10
+            },
+            {
+                "type": "forest",
+                "name": "cotton flush",
+                "x": 592, "y": 83, "id": 11
+            },
+            {
+                "type": "forest",
+                "name": "ice druid camp",
+                "x": 640, "y": 86, "id": 12
+            },
+            {
+                "type": "forest",
+                "name": "icefield",
+                "x": 744, "y": 86, "id": 13
+            },
+            {
+                "type": "ruins",
+                "name": "tricky ruble",
+                "x": 780, "y": 86, "id": 14
+            },
+            {
+                "type": "forest",
+                "name": "black pines",
+                "x": 457, "y": 90, "id": 15
+            },
+            {
+                "type": "city",
+                "name": "icefield settlement",
+                "x": 819, "y": 93, "id": 16
+            },
+            {
+                "type": "city",
+                "name": "barricaded town",
+                "x": 416, "y": 101, "id": 17
+            },
+            {
+                "type": "forest",
+                "name": "icefield",
+                "x": 709, "y": 101, "id": 18
+            },
+            {
+                "type": "cave",
+                "name": "crawler cave",
+                "x": 510, "y": 104, "id": 19
+            },
+            {
+                "type": "cave",
+                "name": "adamantine mine",
+                "x": 557, "y": 104, "id": 20
+            },
+            {
+                "type": "cave",
+                "name": "concealed cavern",
+                "x": 327, "y": 114, "id": 21
+            },
+            {
+                "type": "forest",
+                "name": "icefield",
+                "x": 676, "y": 117, "id": 22
+            },
+            {
+                "type": "cave",
+                "name": "ice slug cave",
+                "x": 469, "y": 120, "id": 23
+            },
+            {
+                "type": "ruins",
+                "name": "snowbeard's ruins",
+                "x": 643, "y": 122, "id": 24
+            },
+            {
+                "type": "forest",
+                "name": "icefield",
+                "x": 802, "y": 125, "id": 25
+            },
+            {
+                "type": "forest",
+                "name": "protruding ruins",
+                "x": 749, "y": 126, "id": 26
+            },
+            {
+                "type": "cave",
+                "name": "crawler queen cavern",
+                "x": 568, "y": 128, "id": 27
+            },
+            {
+                "type": "forest",
+                "name": "weathered snowfield",
+                "x": 380, "y": 132, "id": 28
+            },
+            {
+                "type": "cave",
+                "name": "ice slug cave",
+                "x": 533, "y": 133, "id": 29
+            },
+            {
+                "type": "cave",
+                "name": "ice cleaved cave",
+                "x": 441, "y": 138, "id": 30
+            },
+            {
+                "type": "forest",
+                "name": "blue camp",
+                "x": 708, "y": 139, "id": 31
+            },
+            {
+                "type": "ruins",
+                "name": "puzzled ruins",
+                "x": 305, "y": 141, "id": 32
+            },
+            {
+                "type": "cave",
+                "name": "blue skin mine",
+                "x": 611, "y": 141, "id": 33
+            },
+            {
+                "type": "forest",
+                "name": "tribeacon forest",
+                "x": 338, "y": 144, "id": 34,
+                "contain": {
+                    "beacon-gesdun": 1
+                }
+            },
+            {
+                "type": "forest",
+                "name": "isolated cottage",
+                "x": 666, "y": 148, "id": 35
+            },
+            {
+                "type": "cave",
+                "name": "mining site",
+                "x": 491, "y": 153, "id": 36
+            },
+            {
+                "type": "forest",
+                "name": "black worg pines",
+                "x": 781, "y": 154, "id": 37
+            },
+            {
+                "type": "ruins",
+                "name": "fenatic ruins",
+                "x": 265, "y": 165, "id": 38
+            },
+            {
+                "type": "forest",
+                "name": "gloot's tower",
+                "x": 456, "y": 165, "id": 39
+            },
+            {
+                "type": "fort",
+                "name": "orc stronghold",
+                "x": 396, "y": 166, "id": 40
+            },
+            {
+                "type": "cave",
+                "name": "iced rune hall",
+                "x": 534, "y": 169, "id": 41
+            },
+            {
+                "type": "forest",
+                "name": "worg den",
+                "x": 737, "y": 169, "id": 42
+            },
+            {
+                "type": "cave",
+                "name": "ice slug cave",
+                "x": 584, "y": 170, "id": 43
+            },
+            {
+                "type": "forest",
+                "name": "sloppy icefield",
+                "x": 689, "y": 171, "id": 44
+            },
+            {
+                "type": "cave",
+                "name": "concealed cave",
+                "x": 630, "y": 181, "id": 45
+            },
+            {
+                "type": "fort",
+                "name": "fort kluk",
+                "x": 297, "y": 184, "id": 46
+            },
+            {
+                "type": "ruins",
+                "name": "bewitched ruins",
+                "x": 365, "y": 185, "id": 47
+            },
+            {
+                "type": "forest",
+                "name": "redbutt's camp",
+                "x": 471, "y": 192, "id": 48
+            },
+            {
+                "type": "cave",
+                "name": "hidden cavern",
+                "x": 501, "y": 192, "id": 49
+            },
+            {
+                "type": "forest",
+                "name": "taiga",
+                "x": 769, "y": 195, "id": 50
+            },
+            {
+                "type": "forest",
+                "name": "pot hole pines",
+                "x": 436, "y": 196, "id": 51
+            },
+            {
+                "type": "cave",
+                "name": "gesdun's ruins",
+                "x": 549, "y": 200, "id": 52,
+                "comment": "ᛎUᛈᛞ ᛟᚩᛊᛗᛖᛏᚫ"
+            },
+            {
+                "type": "forest",
+                "name": "taiga",
+                "x": 721, "y": 206, "id": 53
+            },
+            {
+                "type": "ruins",
+                "name": "orc ruins",
+                "x": 337, "y": 208, "id": 54
+            },
+            {
+                "type": "fort",
+                "name": "desecrated fort",
+                "x": 394, "y": 211, "id": 55
+            },
+            {
+                "type": "forest",
+                "name": "the odd lumberyard",
+                "x": 263, "y": 212, "id": 56
+            },
+            {
+                "type": "forest",
+                "name": "taiga",
+                "x": 690, "y": 212, "id": 57
+            },
+            {
+                "type": "cave",
+                "name": "gesdun's rest",
+                "x": 586, "y": 217, "id": 58,
+                "contain": {
+                    "beacon-gesdun": 1
+                }
+            },
+            {
+                "type": "cave",
+                "name": "heated cavern",
+                "x": 628, "y": 219, "id": 59
+            },
+            {
+                "type": "cave",
+                "name": "rich cavern",
+                "x": 518, "y": 225, "id": 60
+            },
+            {
+                "type": "ruins",
+                "name": "labourer's stockade",
+                "x": 304, "y": 229, "id": 61
+            },
+            {
+                "type": "forest",
+                "name": "tunnel pines",
+                "x": 215, "y": 232, "id": 62
+            },
+            {
+                "type": "forest",
+                "name": "pines",
+                "x": 717, "y": 243, "id": 63
+            },
+            {
+                "type": "ruins",
+                "name": "argothirs' rest",
+                "x": 445, "y": 244, "id": 64
+            },
+            {
+                "type": "forest",
+                "name": "deadshot pines",
+                "x": 254, "y": 246, "id": 65
+            },
+            {
+                "type": "ruins",
+                "name": "peaceful glade",
+                "x": 352, "y": 246, "id": 66
+            },
+            {
+                "type": "desert",
+                "name": "defensive dunes",
+                "x": 615, "y": 248, "id": 67
+            },
+            {
+                "type": "ruins",
+                "name": "concealed ruins",
+                "x": 780, "y": 252, "id": 68
+            },
+            {
+                "type": "desert",
+                "name": "fringe sands",
+                "x": 577, "y": 253, "id": 69
+            },
+            {
+                "type": "city",
+                "name": "cotton farm",
+                "x": 185, "y": 254, "id": 70
+            },
+            {
+                "type": "forest",
+                "name": "wolf tamer camp",
+                "x": 408, "y": 254, "id": 71
+            },
+            {
+                "type": "ruins",
+                "name": "bor's fort",
+                "x": 652, "y": 257, "id": 72
+            },
+            {
+                "type": "ruins",
+                "name": "autumn beacon",
+                "x": 748, "y": 264, "id": 73
+            },
+            {
+                "type": "forest",
+                "name": "ochre pines",
+                "x": 308, "y": 265, "id": 74
+            },
+            {
+                "type": "desert",
+                "name": "riddled sands",
+                "x": 537, "y": 265, "id": 75
+            },
+            {
+                "type": "fort",
+                "name": "death fort",
+                "x": 684, "y": 267, "id": 76
+            },
+            {
+                "type": "forest",
+                "name": "hunter's lodge",
+                "x": 221, "y": 268, "id": 77
+            },
+            {
+                "type": "cave",
+                "name": "narrow cave",
+                "x": 278, "y": 268, "id": 78
+            },
+            {
+                "type": "city",
+                "name": "weathered town",
+                "x": 502, "y": 269, "id": 79
+            },
+            {
+                "type": "cave",
+                "name": "furious cavern",
+                "x": 463, "y": 272, "id": 80
+            },
+            {
+                "type": "forest",
+                "name": "red caverns",
+                "x": 379, "y": 281, "id": 81
+            },
+            {
+                "type": "desert",
+                "name": "wild dwarf dunes",
+                "x": 618, "y": 284, "id": 82
+            },
+            {
+                "type": "desert",
+                "name": "begrudging sans",
+                "x": 576, "y": 288, "id": 83
+            },
+            {
+                "type": "ruins",
+                "name": "shifting ruins",
+                "x": 719, "y": 288, "id": 84
+            },
+            {
+                "type": "forest",
+                "name": "ravaged farm",
+                "x": 250, "y": 291, "id": 85
+            },
+            {
+                "type": "forest",
+                "name": "felled pines",
+                "x": 197, "y": 296, "id": 86
+            },
+            {
+                "type": "desert",
+                "name": "refug's domain",
+                "x": 535, "y": 297, "id": 87
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 780, "y": 301, "id": 88
+            },
+            {
+                "type": "cave",
+                "name": "red caverns",
+                "x": 441, "y": 302, "id": 89
+            },
+            {
+                "type": "desert",
+                "name": "hostaged camp",
+                "x": 495, "y": 302, "id": 90
+            },
+            {
+                "type": "ruins",
+                "name": "deceived ruins",
+                "x": 659, "y": 304, "id": 91
+            },
+            {
+                "type": "ruins",
+                "name": "ruins of remhar",
+                "x": 282, "y": 306, "id": 92
+            },
+            {
+                "type": "forest",
+                "name": "dying woods",
+                "x": 324, "y": 308, "id": 93
+            },
+            {
+                "type": "forest",
+                "name": "brekar woods",
+                "x": 356, "y": 316, "id": 94
+            },
+            {
+                "type": "forest",
+                "name": "pchre pines",
+                "x": 229, "y": 318, "id": 95
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 820, "y": 318, "id": 96
+            },
+            {
+                "type": "cave",
+                "name": "floral cavern",
+                "x": 407, "y": 320, "id": 97
+            },
+            {
+                "type": "ruins",
+                "name": "mascom westgate",
+                "x": 694, "y": 324, "id": 98
+            },
+            {
+                "type": "ruins",
+                "name": "resistance rockies",
+                "x": 626, "y": 325, "id": 99
+            },
+            {
+                "type": "fort",
+                "name": "orc stronghold",
+                "x": 585, "y": 329, "id": 100
+            },
+            {
+                "type": "desert",
+                "name": "red wasteland",
+                "x": 472, "y": 330, "id": 101
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 742, "y": 330, "id": 102
+            },
+            {
+                "type": "city",
+                "name": "cotton farm",
+                "x": 260, "y": 332, "id": 103
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 785, "y": 333, "id": 104
+            },
+            {
+                "type": "desert",
+                "name": "red encampment",
+                "x": 507, "y": 338, "id": 105
+            },
+            {
+                "type": "ruins",
+                "name": "overrun ruins",
+                "x": 194, "y": 342, "id": 106
+            },
+            {
+                "type": "cave",
+                "name": "eerie cavern",
+                "x": 371, "y": 343, "id": 107
+            },
+            {
+                "type": "fort",
+                "name": "goblin stockade",
+                "x": 437, "y": 347, "id": 108
+            },
+            {
+                "type": "ruins",
+                "name": "the odd ruins",
+                "x": 334, "y": 351, "id": 109
+            },
+            {
+                "type": "ruins",
+                "name": "red rock ruins",
+                "x": 544, "y": 353, "id": 110
+            },
+            {
+                "type": "ruins",
+                "name": "swampy ruins",
+                "x": 812, "y": 353, "id": 111
+            },
+            {
+                "type": "desert",
+                "name": "lone well",
+                "x": 660, "y": 354, "id": 112
+            },
+            {
+                "type": "ruins",
+                "name": "ruins of korl",
+                "x": 236, "y": 357, "id": 113
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 719, "y": 358, "id": 114
+            },
+            {
+                "type": "cave",
+                "name": "small cave",
+                "x": 297, "y": 359, "id": 115
+            },
+            {
+                "type": "desert",
+                "name": "arid dunes",
+                "x": 407, "y": 362, "id": 116
+            },
+            {
+                "type": "swamp",
+                "name": "sulphuric mire",
+                "x": 770, "y": 365, "id": 117
+            },
+            {
+                "type": "desert",
+                "name": "overrun village",
+                "x": 483, "y": 370, "id": 118
+            },
+            {
+                "type": "desert",
+                "name": "second ruins",
+                "x": 589, "y": 370, "id": 119
+            },
+            {
+                "type": "desert",
+                "name": "quiet waste",
+                "x": 358, "y": 376, "id": 120,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            },
+            {
+                "type": "desert",
+                "name": "red goblin camp",
+                "x": 452, "y": 376, "id": 121
+            },
+            {
+                "type": "cave",
+                "name": "expansive cavern",
+                "x": 517, "y": 380, "id": 122
+            },
+            {
+                "type": "desert",
+                "name": "new settlement",
+                "x": 625, "y": 384, "id": 123
+            },
+            {
+                "type": "home",
+                "name": "campground",
+                "x": 266, "y": 385, "id": 124
+            },
+            {
+                "type": "city",
+                "name": "joe's farm",
+                "x": 321, "y": 388, "id": 125
+            },
+            {
+                "type": "fort",
+                "name": "goblin stockade",
+                "x": 202, "y": 389, "id": 126
+            },
+            {
+                "type": "desert",
+                "name": "arid dunes",
+                "x": 385, "y": 391, "id": 127
+            },
+            {
+                "type": "city",
+                "name": "desert town",
+                "x": 422, "y": 391, "id": 128
+            },
+            {
+                "type": "desert",
+                "name": "first ruins",
+                "x": 557, "y": 392, "id": 129
+            },
+            {
+                "type": "desert",
+                "name": "red goblin camp",
+                "x": 469, "y": 406, "id": 130
+            },
+            {
+                "type": "ruins",
+                "name": "bolis' ruins",
+                "x": 737, "y": 408, "id": 131
+            },
+            {
+                "type": "forest",
+                "name": "goblin encampment",
+                "x": 291, "y": 409, "id": 132
+            },
+            {
+                "type": "desert",
+                "name": "howling dunes",
+                "x": 525, "y": 411, "id": 133
+            },
+            {
+                "type": "rothgar",
+                "name": "rothgar",
+                "x": 661, "y": 412, "id": 134
+            },
+            {
+                "type": "ruins",
+                "name": "ruins of microlinia",
+                "x": 235, "y": 416, "id": 135
+            },
+            {
+                "type": "ruins",
+                "name": "excavated beacon",
+                "x": 774, "y": 417, "id": 136
+            },
+            {
+                "type": "cave",
+                "name": "cave",
+                "x": 580, "y": 418, "id": 137
+            },
+            {
+                "type": "forest",
+                "name": "quiet woods",
+                "x": 315, "y": 421, "id": 138
+            },
+            {
+                "type": "cave",
+                "name": "red goblin cave",
+                "x": 441, "y": 421, "id": 139
+            },
+            {
+                "type": "cave",
+                "name": "cave",
+                "x": 620, "y": 426, "id": 140
+            },
+            {
+                "type": "ruins",
+                "name": "nameless ruins",
+                "x": 153, "y": 427, "id": 141,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            },
+            {
+                "type": "ruins",
+                "name": "tower of gur",
+                "x": 192, "y": 429, "id": 142
+            },
+            {
+                "type": "cave",
+                "name": "mining cave",
+                "x": 400, "y": 429, "id": 143
+            },
+            {
+                "type": "forest",
+                "name": "bloodied forest",
+                "x": 352, "y": 431, "id": 144
+            },
+            {
+                "type": "desert",
+                "name": "braved camp",
+                "x": 496, "y": 438, "id": 145
+            },
+            {
+                "type": "forest",
+                "name": "howling forest",
+                "x": 267, "y": 442, "id": 146
+            },
+            {
+                "type": "city",
+                "name": "bapsy's installation",
+                "x": 530, "y": 442, "id": 147
+            },
+            {
+                "type": "desert",
+                "name": "outrider camp",
+                "x": 748, "y": 451, "id": 148
+            },
+            {
+                "type": "desert",
+                "name": "conquered fort",
+                "x": 710, "y": 452, "id": 149
+            },
+            {
+                "type": "cave",
+                "name": "cave",
+                "x": 599, "y": 456, "id": 150
+            },
+            {
+                "type": "cave",
+                "name": "slug infestation",
+                "x": 427, "y": 459, "id": 151
+            },
+            {
+                "type": "forest",
+                "name": "lumberyard",
+                "x": 231, "y": 460, "id": 152
+            },
+            {
+                "type": "cave",
+                "name": "cave",
+                "x": 646, "y": 460, "id": 153
+            },
+            {
+                "type": "city",
+                "name": "hovel",
+                "x": 296, "y": 464, "id": 154
+            },
+            {
+                "type": "cave",
+                "name": "troll cave",
+                "x": 389, "y": 465, "id": 155
+            },
+            {
+                "type": "cave",
+                "name": "cave",
+                "x": 563, "y": 468, "id": 156
+            },
+            {
+                "type": "cave",
+                "name": "treasure hall",
+                "x": 864, "y": 468, "id": 157
+            },
+            {
+                "type": "cave",
+                "name": "troll crossing",
+                "x": 468, "y": 472, "id": 158
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 183, "y": 475, "id": 159
+            },
+            {
+                "type": "desert",
+                "name": "fertile sands",
+                "x": 512, "y": 478, "id": 160
+            },
+            {
+                "type": "forest",
+                "name": "goblin forest",
+                "x": 257, "y": 483, "id": 161
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 140, "y": 486, "id": 162
+            },
+            {
+                "type": "desert",
+                "name": "outrider camp",
+                "x": 694, "y": 489, "id": 163
+            },
+            {
+                "type": "city",
+                "name": "hunters cottage",
+                "x": 182, "y": 498, "id": 164
+            },
+            {
+                "type": "cave",
+                "name": "putrid tunnel",
+                "x": 616, "y": 500, "id": 165
+            },
+            {
+                "type": "fort",
+                "name": "outrider fort",
+                "x": 735, "y": 501, "id": 166
+            },
+            {
+                "type": "cave",
+                "name": "crawler infestation",
+                "x": 434, "y": 505, "id": 167
+            },
+            {
+                "type": "desert",
+                "name": "black blood camp",
+                "x": 781, "y": 506, "id": 168
+            },
+            {
+                "type": "desert",
+                "name": "concealed dunes",
+                "x": 538, "y": 508, "id": 169
+            },
+            {
+                "type": "forest",
+                "name": "obed's grave",
+                "x": 221, "y": 512, "id": 170
+            },
+            {
+                "type": "cave",
+                "name": "fiery flora",
+                "x": 574, "y": 512, "id": 171
+            },
+            {
+                "type": "ruins",
+                "name": "pivotal ruins",
+                "x": 507, "y": 516, "id": 172,
+                "contain": {
+                    "beacon-narrow": 1,
+                    "beacon-wide": 1
+                }
+            },
+            {
+                "type": "cave",
+                "name": "lost city",
+                "x": 268, "y": 519, "id": 173
+            },
+            {
+                "type": "ruins",
+                "name": "muddled ruins",
+                "x": 466, "y": 521, "id": 174
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 166, "y": 523, "id": 175
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 118, "y": 524, "id": 176
+            },
+            {
+                "type": "forest",
+                "name": "conflicted pines",
+                "x": 442, "y": 537, "id": 177
+            },
+            {
+                "type": "desert",
+                "name": "black blood camp",
+                "x": 706, "y": 537, "id": 178
+            },
+            {
+                "type": "desert",
+                "name": "black bloods waste",
+                "x": 813, "y": 540, "id": 179
+            },
+            {
+                "type": "forest",
+                "name": "muddled ruins",
+                "x": 412, "y": 543, "id": 180
+            },
+            {
+                "type": "forest",
+                "name": "hammerhand clan",
+                "x": 588, "y": 545, "id": 181
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 185, "y": 546, "id": 182
+            },
+            {
+                "type": "fort",
+                "name": "black blood fort",
+                "x": 859, "y": 547, "id": 183
+            },
+            {
+                "type": "ruins",
+                "name": "humble ruins",
+                "x": 384, "y": 549, "id": 184
+            },
+            {
+                "type": "desert",
+                "name": "berserker camp",
+                "x": 751, "y": 549, "id": 185
+            },
+            {
+                "type": "cave",
+                "name": "small settlement",
+                "x": 286, "y": 550, "id": 186
+            },
+            {
+                "type": "city",
+                "name": "hardy farm",
+                "x": 544, "y": 550, "id": 187
+            },
+            {
+                "type": "forest",
+                "name": "invaded orchard",
+                "x": 654, "y": 551, "id": 188
+            },
+            {
+                "type": "swamp",
+                "name": "seeping bog",
+                "x": 141, "y": 552, "id": 189
+            },
+            {
+                "type": "cave",
+                "name": "floral cavern",
+                "x": 243, "y": 556, "id": 190
+            },
+            {
+                "type": "ruins",
+                "name": "tricky ledger",
+                "x": 506, "y": 560, "id": 191
+            },
+            {
+                "type": "fort",
+                "name": "black blood fort",
+                "x": 788, "y": 564, "id": 192
+            },
+            {
+                "type": "forest",
+                "name": "beacon pines",
+                "x": 357, "y": 569, "id": 193,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            },
+            {
+                "type": "forest",
+                "name": "secretive stranger",
+                "x": 613, "y": 569, "id": 194
+            },
+            {
+                "type": "desert",
+                "name": "destroyed township",
+                "x": 890, "y": 571, "id": 195
+            },
+            {
+                "type": "forest",
+                "name": "salted wastes",
+                "x": 207, "y": 574, "id": 196
+            },
+            {
+                "type": "fort",
+                "name": "forest troll fort",
+                "x": 446, "y": 574, "id": 197
+            },
+            {
+                "type": "ruins",
+                "name": "peculiar ruins",
+                "x": 313, "y": 575, "id": 198
+            },
+            {
+                "type": "forest",
+                "name": "kobold's village",
+                "x": 99, "y": 577, "id": 199
+            },
+            {
+                "type": "city",
+                "name": "bizzare hermit",
+                "x": 686, "y": 581, "id": 200
+            },
+            {
+                "type": "ruins",
+                "name": "five tower beacons",
+                "x": 552, "y": 584, "id": 201
+            },
+            {
+                "type": "forest",
+                "name": "murky grassland",
+                "x": 171, "y": 586, "id": 202
+            },
+            {
+                "type": "desert",
+                "name": "black blood land",
+                "x": 810, "y": 591, "id": 203
+            },
+            {
+                "type": "ruins",
+                "name": "tainted ruins",
+                "x": 133, "y": 593, "id": 204
+            },
+            {
+                "type": "fort",
+                "name": "black blood fort",
+                "x": 844, "y": 593, "id": 205
+            },
+            {
+                "type": "cave",
+                "name": "concealed cave",
+                "x": 481, "y": 595, "id": 206,
+                "contain": {
+                    "beacon-wide": 1
+                }
+            },
+            {
+                "type": "forest",
+                "name": "overrun village",
+                "x": 410, "y": 597, "id": 207
+            },
+            {
+                "type": "city",
+                "name": "reclusive novel",
+                "x": 255, "y": 606, "id": 208
+            },
+            {
+                "type": "ruins",
+                "name": "pentarunes",
+                "x": 639, "y": 606, "id": 209
+            },
+            {
+                "type": "desert",
+                "name": "fort orcthorns",
+                "x": 771, "y": 608, "id": 210
+            },
+            {
+                "type": "city",
+                "name": "guarded town",
+                "x": 102, "y": 612, "id": 211
+            },
+            {
+                "type": "ruins",
+                "name": "orek's rest",
+                "x": 296, "y": 614, "id": 212
+            },
+            {
+                "type": "ruins",
+                "name": "menam's ruins",
+                "x": 447, "y": 615, "id": 213,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            },
+            {
+                "type": "ruins",
+                "name": "druid's ruins",
+                "x": 380, "y": 619, "id": 214
+            },
+            {
+                "type": "forest",
+                "name": "the great library",
+                "x": 596, "y": 619, "id": 215
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 205, "y": 621, "id": 216
+            },
+            {
+                "type": "ruins",
+                "name": "concealed ruins",
+                "x": 880, "y": 624, "id": 217
+            },
+            {
+                "type": "ruins",
+                "name": "residual ruins",
+                "x": 336, "y": 625, "id": 218,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            },
+            {
+                "type": "ruins",
+                "name": "concealed ruins",
+                "x": 728, "y": 629, "id": 219
+            },
+            {
+                "type": "fort",
+                "name": "blue skin fort",
+                "x": 137, "y": 630, "id": 220
+            },
+            {
+                "type": "forest",
+                "name": "sculptor's pines",
+                "x": 499, "y": 632, "id": 221
+            },
+            {
+                "type": "ruins",
+                "name": "concealed ruins",
+                "x": 676, "y": 632, "id": 222
+            },
+            {
+                "type": "desert",
+                "name": "black blood land",
+                "x": 828, "y": 632, "id": 223
+            },
+            {
+                "type": "ruins",
+                "name": "reshkar's outpost",
+                "x": 175, "y": 634, "id": 224
+            },
+            {
+                "type": "ruins",
+                "name": "invaded ruins",
+                "x": 276, "y": 644, "id": 225
+            },
+            {
+                "type": "ruins",
+                "name": "tall ruins",
+                "x": 85, "y": 646, "id": 226
+            },
+            {
+                "type": "cave",
+                "name": "concealed cave",
+                "x": 642, "y": 646, "id": 227
+            },
+            {
+                "type": "forest",
+                "name": "worg rider camp",
+                "x": 414, "y": 648, "id": 228
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 232, "y": 655, "id": 229
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 192, "y": 657, "id": 230
+            },
+            {
+                "type": "forest",
+                "name": "uderest's ruins",
+                "x": 458, "y": 664, "id": 231
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 307, "y": 669, "id": 232
+            },
+            {
+                "type": "ruins",
+                "name": "silent southern ruins",
+                "x": 117, "y": 670, "id": 233
+            },
+            {
+                "type": "ruins",
+                "name": "barricaded ruins",
+                "x": 157, "y": 670, "id": 234
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 259, "y": 678, "id": 235
+            },
+            {
+                "type": "forest",
+                "name": "unseemly wilds",
+                "x": 211, "y": 687, "id": 236
+            },
+            {
+                "type": "ruins",
+                "name": "hovering beacon",
+                "x": 133, "y": 705, "id": 237,
+                "contain": {
+                    "beacon-narrow": 1
+                }
+            }
+        ];
+        postInit();
     </script>
 </body>
 </html>
