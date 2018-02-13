@@ -26,11 +26,26 @@
             pointer-events: none;
         }
 
-        .filtered text,
-        .hover text {
+        .filtered text.name,
+        .hover text.name {
             opacity: 1;
             fill: cyan;
             text-shadow: 1px 1px black;
+        }
+
+        text.mark {
+            opacity: 1;
+            fill: cyan;
+            text-shadow: 1px 1px black;
+            font-size: 2em;
+        }
+
+        text.mark.ok {
+            color: greenyellow;
+        }
+
+        text.mark.fail {
+            color: red;
         }
 
         circle {
@@ -74,9 +89,9 @@
             </div>
             <div class="col-4">
                 <h4>Region of Ruins Map v0.2</h4>
-                <div>
+                <p>
                     <h5>Filters</h5>
-                    <p>
+                    <div>
                         <strong>Terrain:</strong>
                         <select id="terrain" onchange="setHash('terrain', this.value)">
                             <option value="" selected>Select terrain</option>
@@ -90,8 +105,8 @@
                             <option value="home">Home</option>
                             <option value="rothgar">Rothgar</option>
                         </select>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <strong>Contain:</strong>
                         <select id="contain" onchange="setHash('contain', this.value)">
                             <option value="" selected>Select item</option>
@@ -155,14 +170,14 @@
                                 <option value="building-middle-apothecary">Middle Apothecary</option>
                             </optgroup>
                         </select>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <strong>Search:</strong>
                         <input id="search" placeholder="Type a name" onchange="setHash('search', this.value)" onkeyup="setHash('search', this.value)">
-                    </p>
-                </div>
-                <div>
-                    <h5>Info (click on marker)</h5>
+                    </div>
+                </p>
+                <p>
+                    <h5>Info</h5>
                     <div>
                         <strong>Location: </strong>
                         <span id="info-location"></span>
@@ -179,8 +194,16 @@
                         <strong>Comment: </strong>
                         <span id="info-comment"></span>
                     </div>
-                </div>
-                <div>
+                </p>
+                <p>
+                    <h5>Usage</h5>
+                    <ul>
+                        <li>Click on location to get info</li>
+                        <li>Double click on location to mark it</li>
+                        <li>You can copy location link</li>
+                    </ul>
+                </p>
+                <p>
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({
@@ -188,13 +211,12 @@
                             enable_page_level_ads: true
                         });
                     </script>
-                </div>
+                </p>
                 <div class="copy">
-                    <div>
-                        <small>Copyright &copy; 2017
-                            <a href="https://github.com/theaspect/ror">theaspect</a>
-                        </small>
-                    </div>
+                    <small>Copyright &copy; 2017
+                        <a href="https://github.com/theaspect/ror">theaspect</a>.
+                        Discussion on <a href="http://steamcommunity.com/app/680360/discussions/0/1700542332328947043/">Steam</a>
+                    </small>
                 </div>
             </div>
         </div>
@@ -206,23 +228,33 @@
             .attr("width", 1028)
             .attr("height", 770)
             .on("click", (data, i) => {
-                const [x, y] = d3.mouse(svg.node());
-                const newPoint = {
-                    type: d3.select("#type").node().value,
-                    name: d3.select("#name").node().value,
-                    x: x,
-                    y: y
-                };
-                console.log(newPoint);
-                markers.push(newPoint);
+                setHash("id", "");
                 update();
             });
         function update() {
+            console.log("Refresh");
+
             const points = svg.selectAll("g").data(markers);
             const g = points.enter()
                 .append("g")
                 .attr("transform", (d, i) => `translate(${d.x},${d.y})`);
             points.exit().remove();
+
+            g.append("text")
+                .attr("dy", -16)
+                .attr("text-anchor", "middle")
+                .attr("class", "name")
+                .text((d, i) => `#${d.id} ${d.name}`);
+
+            g.append("text")
+                .attr("dy", 11)
+                .attr("text-anchor", "middle")
+                .attr("class", "mark");
+
+            points.select("text.mark")
+                .classed("ok", (d, i) => getVisited(i) === 1)
+                .classed("fail", (d, i) => getVisited(i) === 2)
+                .text((d, i) => ["", "✓", "✗"][getVisited(i)]);
 
             // Passive visited marker
             g.filter(data => data.visited)
@@ -238,20 +270,24 @@
                 .attr("r", (d, i) => 15)
                 .classed("friendly", (d, i) => d.friendly)
                 .on("click", (data, i) => {
-                    console.log("click", i, data);
-                    setHash("id", i);
-                    d3.event.stopPropagation();
+                    if (data) {
+                        console.log("click", i, data);
+                        setHash("id", i);
+                        d3.event.stopPropagation();
+                    }
+                })
+                .on("dblclick", (data, i) => {
+                    if (data) {
+                        console.log("doubleclick", i, data);
+                        setVisited(i);
+                        d3.event.stopPropagation();
+                    }
                 })
                 .on("mouseover", (data, i) => {
                     console.log(i, data)
                     d3.select(d3.event.target.parentNode).classed("hover", true)
                 })
                 .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("hover", false));
-
-            g.append("text")
-                .attr("dy", -16)
-                .attr("text-anchor", "middle")
-                .text((d, i) => `#${d.id} ${d.name}`);
         }
         function filterTerrain(value) {
             svg.selectAll("g").classed("filtered", false);
@@ -276,10 +312,42 @@
             }
         }
 
+        function setVisited(i) {
+            try {
+                let mode;
+                if (localStorage[i]) {
+                    mode = parseInt(localStorage[i]);
+                } else {
+                    mode = 0;
+                }
+                localStorage[i] = (mode + 1) % 3;
+                update();
+            } catch (e) {
+                console.log("Local storage disabled");
+            }
+        }
+
+        function getVisited(i) {
+            try {
+                if (localStorage[i]) {
+                    return parseInt(localStorage[i]);
+                } else {
+                    return 0;
+                }
+            } catch (e) {
+                console.log("Local storage disabled");
+                return 0;
+            }
+        }
+
         function fullTextSearch(data, value) {
-            return String(data.id).indexOf(value) != -1
-                || data.name.toLowerCase().indexOf(value.toLowerCase()) != -1
-                || (data.comment ? data.comment.toLowerCase() : "").indexOf(value.toLowerCase()) != -1;
+            if (value) {
+                return String(data.id).indexOf(value) != -1
+                    || data.name.toLowerCase().indexOf(value.toLowerCase()) != -1
+                    || (data.comment ? data.comment.toLowerCase() : "").indexOf(value.toLowerCase()) != -1;
+            } else {
+                return false;
+            }
         }
         function updateFilter(item, value) {
             ['terrain', 'search', 'contain'].forEach(e => {
