@@ -8,7 +8,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'UA-30754630-5');
     </script>
 
@@ -16,8 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <script src="https://d3js.org/d3.v5.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <style>
         text {
             opacity: 0;
@@ -37,15 +36,26 @@
         circle {
             fill-opacity: 0;
             stroke-opacity: 0;
+            stroke: red;
+            stroke-width: 5;
+        }
+
+        circle.friendly {
+            stroke: greenyellow;
+        }
+
+        circle.visited {
+            fill-opacity: 0;
+            stroke-opacity: 0;
+            stroke-width: 1;
+            stroke: black;
         }
 
         .filtered circle,
         .hover circle,
         .highlight circle {
-            stroke: red;
-            stroke-width: 5;
             fill-opacity: 0;
-            stroke-opacity: 0.4;
+            stroke-opacity: 0.8;
         }
 
         .copy {
@@ -199,9 +209,11 @@
                 .attr("transform", (d, i) => `translate(${d.x},${d.y})`);
             points.exit().remove();
 
+            // Normal circle
             g.append("circle")
                 .attr("class", "normal")
                 .attr("r", (d, i) => 15)
+                .classed("friendly", (d, i) => d.friendly)
                 .on("click", (data, i) => {
                     //markers.splice(i, 1);
                     //update();
@@ -213,6 +225,16 @@
                     d3.select(d3.event.target.parentNode).classed("hover", true)
                 })
                 .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("hover", false));
+
+            // Passive visited marker
+            g.filter(data => data.visited)
+                .append("circle")
+                .attr("r", (d, i) => 18)
+                .attr("class", "visited");
+            g.filter(data => data.visited).append("circle")
+                .attr("r", (d, i) => 12)
+                .attr("class", "visited");
+
             g.append("text")
                 .attr("dy", -16)
                 .attr("text-anchor", "middle")
@@ -966,7 +988,9 @@
             {
                 "type": "home",
                 "name": "campground",
-                "x": 266, "y": 385, "id": 124
+                "x": 266, "y": 385, "id": 124,
+                "friendly": true,
+                "visited": true
             },
             {
                 "type": "city",
