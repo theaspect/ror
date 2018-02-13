@@ -1,21 +1,23 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-30754630-5"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'UA-30754630-5');
+        gtag('config', 'UA-30754630-5');
     </script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <script src="https://d3js.org/d3.v5.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         text {
             opacity: 0;
@@ -24,52 +26,43 @@
             cursor: default;
             pointer-events: none;
         }
+
         .filtered text,
         .hover text {
             opacity: 1;
             fill: cyan;
             text-shadow: 1px 1px black;
         }
+
         circle {
             fill-opacity: 0;
             stroke-opacity: 0;
         }
+
         .filtered circle,
-        .hover circle {
+        .hover circle,
+        .highlight circle {
             stroke: red;
             stroke-width: 5;
             fill-opacity: 0;
             stroke-opacity: 0.4;
         }
+
         .copy {
             position: absolute;
             bottom: 0;
         }
     </style>
-    <title>Region of Ruins Map v0.1</title>
+    <title>Regions of Ruin Map v0.2</title>
 </head>
+
 <body onhashchange="onHashChange()">
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
-                <svg id="map" 
-                    width="100%" viewBox="0 0 1028 770" 
-                    preserveAspectRatio="xMinYMin meet"></svg>
+                <svg id="map" width="100%" viewBox="0 0 1028 770" preserveAspectRatio="xMinYMin meet"></svg>
             </div>
             <div class="col-4">
-                <!-- <select id="type">
-                    <option value="city">city</option>  
-                    <option value="forest">forest</option>
-                    <option value="ruins">ruins</option>
-                    <option value="cave">cave</option>
-                    <option value="swamp">swamp</option>
-                    <option value="desert">desert</option>
-                    <option value="fort">fort</option>
-                    <option value="home">Home</option>
-                    <option value="rothgar">Rothgar</option>
-                </select>
-                <br/>
-                <input id="name" /> -->
                 <h4>Region of Ruins Map v0.1</h4>
                 <div>
                     <h5>Filters</h5>
@@ -145,22 +138,38 @@
                 </div>
                 <div>
                     <h5>Info (click on marker)</h5>
-                    <div><strong>Location: </strong><span id="info-location"></span></div>
-                    <div><strong>Type: </strong><span id="info-type"></span></div>
-                    <div><strong>Contain: </strong><span id="info-contain"></span></div>
-                    <div><strong>Comment: </strong><span id="info-comment"></span></div>
+                    <div>
+                        <strong>Location: </strong>
+                        <span id="info-location"></span>
+                    </div>
+                    <div>
+                        <strong>Type: </strong>
+                        <span id="info-type"></span>
+                    </div>
+                    <div>
+                        <strong>Contain: </strong>
+                        <span id="info-contain"></span>
+                    </div>
+                    <div>
+                        <strong>Comment: </strong>
+                        <span id="info-comment"></span>
+                    </div>
                 </div>
                 <div>
                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({
-                        google_ad_client: "ca-pub-6295207818447103",
-                        enable_page_level_ads: true
-                    });
+                        (adsbygoogle = window.adsbygoogle || []).push({
+                            google_ad_client: "ca-pub-6295207818447103",
+                            enable_page_level_ads: true
+                        });
                     </script>
                 </div>
                 <div class="copy">
-                    <div><small>Copyright &copy; 2017 <a href="https://github.com/theaspect/ror">theaspect</a></small></div>
+                    <div>
+                        <small>Copyright &copy; 2017
+                            <a href="https://github.com/theaspect/ror">theaspect</a>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -172,7 +181,7 @@
             .attr("width", 1028)
             .attr("height", 770)
             .on("click", (data, i) => {
-                const [x,y] = d3.mouse(svg.node());
+                const [x, y] = d3.mouse(svg.node());
                 const newPoint = {
                     type: d3.select("#type").node().value,
                     name: d3.select("#name").node().value,
@@ -183,11 +192,11 @@
                 markers.push(newPoint);
                 update();
             });
-        function update(){
+        function update() {
             const points = svg.selectAll("g").data(markers);
             const g = points.enter()
                 .append("g")
-                    .attr("transform", (d,i) => `translate(${d.x},${d.y})`);
+                .attr("transform", (d, i) => `translate(${d.x},${d.y})`);
             points.exit().remove();
 
             g.append("circle")
@@ -207,46 +216,46 @@
             g.append("text")
                 .attr("dy", -16)
                 .attr("text-anchor", "middle")
-                .text((d,i) => `#${d.id} ${d.name}`);
+                .text((d, i) => `#${d.id} ${d.name}`);
         }
-        function filterTerrain(value){
+        function filterTerrain(value) {
             svg.selectAll("g").classed("filtered", false);
             svg.selectAll("g").filter(data => data.type === value).classed("filtered", true);
         }
-        function filterId(value){
+        function filterId(value) {
             svg.selectAll("g").classed("filtered", false);
             svg.selectAll("g").filter(data => `${data.id}` === value).classed("filtered", true);
         }
-        function filterSearch(value){
+        function filterSearch(value) {
             svg.selectAll("g").classed("filtered", false);
             // Empty search
-            if(value){
-                svg.selectAll("g").filter(data => data.name.indexOf(value)!=-1).classed("filtered", true);
+            if (value) {
+                svg.selectAll("g").filter(data => data.name.indexOf(value) != -1).classed("filtered", true);
             }
         }
-        function filterContain(value){
+        function filterContain(value) {
             svg.selectAll("g").classed("filtered", false);
             // Empty search
-            if(value){
+            if (value) {
                 svg.selectAll("g").filter(data => data.contain && data.contain[value]).classed("filtered", true);
             }
         }
 
-        function updateFilter(item, value){
+        function updateFilter(item, value) {
             ['terrain', 'search', 'contain'].forEach(e => {
-                if (e===item){
+                if (e === item) {
                     document.getElementById(e).value = value;
-                } else{
+                } else {
                     document.getElementById(e).value = ""
                 }
             });
         }
 
-        function onHashChange(){
+        function onHashChange() {
             console.log(location.hash);
             setInfo();
-            const {filter, value} = getHash();
-            switch(filter){
+            const { filter, value } = getHash();
+            switch (filter) {
                 case '#terrain':
                     updateFilter('terrain', value);
                     filterTerrain(value);
@@ -268,27 +277,29 @@
                     console.log(`Unknown filter ${filter}`);
             }
         }
-        function setHash(filter, value){
-            location.hash=`${filter}/${value}`;
         }
-        function getHash(){
-            if(location.hash){
+        function setHash(filter, value) {
+            location.hash = `${filter}/${value}`;
+        }
+
+        function getHash() {
+            if (location.hash) {
                 const [filter, value] = location.hash.split("/");
-                return {filter:filter, value:value};
-            }else{
-                return {filter:"", value:""};
+                return { filter: filter, value: value };
+            } else {
+                return { filter: "", value: "" };
             }
         }
-        function formatContain(marker){
+        function formatContain(marker) {
             var text = "";
-            if(marker && marker.contain){
+            if (marker && marker.contain) {
                 Object.keys(marker.contain)
-                    .forEach((key) => text += `<div>&emsp;<strong>${key.replace("-"," ")}</strong> ${marker.contain[key]}</div>`)
+                    .forEach((key) => text += `<div>&emsp;<strong>${key.replace("-", " ")}</strong> ${marker.contain[key]}</div>`)
             }
             return text;
         }
-        function setInfo(marker){
-            if(marker){
+        function setInfo(marker) {
+            if (marker) {
                 document.getElementById('info-location').innerHTML = `<a href="#id/${marker.id}">#${marker.id} ${marker.name}</a>`;
                 document.getElementById('info-type').innerHTML = marker.type;
                 document.getElementById('info-contain').innerHTML = formatContain(marker);
@@ -1535,4 +1546,5 @@
         postInit();
     </script>
 </body>
+
 </html>
