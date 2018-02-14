@@ -92,18 +92,27 @@
                 <p>
                     <h5>Filters</h5>
                     <div>
-                        <strong>Terrain:</strong>
+                        <strong>Groups:</strong>
                         <select id="terrain" onchange="setHash('terrain', this.value)">
-                            <option value="" selected>Select terrain</option>
-                            <option value="city">city</option>
-                            <option value="forest">forest</option>
-                            <option value="ruins">ruins</option>
-                            <option value="cave">cave</option>
-                            <option value="swamp">swamp</option>
-                            <option value="desert">desert</option>
-                            <option value="fort">fort</option>
-                            <option value="home">Home</option>
-                            <option value="rothgar">Rothgar</option>
+                            <option value="" selected>Select group</option>
+                            <optgroup label="Terrains">
+                                <option value="city">city</option>
+                                <option value="forest">forest</option>
+                                <option value="ruins">ruins</option>
+                                <option value="cave">cave</option>
+                                <option value="swamp">swamp</option>
+                                <option value="desert">desert</option>
+                                <option value="fort">fort</option>
+                                <option value="home">Home</option>
+                                <option value="rothgar">Rothgar</option>
+                            </optgroup>
+                            <optgroup label="Attitude">
+                                <option value="attitude-friendly">Friendly</option>
+                                <option value="attitude-hostile">Hostile</option>
+                            </optgroup>
+                            <optgroup label="Misc">
+                                <option value="misc-done">Done</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div>
@@ -216,8 +225,8 @@
                 </p>
                 <div class="copy">
                     <small>Copyright &copy; 2017
-                        <a href="https://github.com/theaspect/ror">theaspect</a>.
-                        Discussion on <a href="http://steamcommunity.com/app/680360/discussions/0/1700542332328947043/">Steam</a>
+                        <a href="https://github.com/theaspect/ror">theaspect</a>. Discussion on
+                        <a href="http://steamcommunity.com/app/680360/discussions/0/1700542332328947043/">Steam</a>
                     </small>
                 </div>
             </div>
@@ -293,7 +302,15 @@
         }
         function filterTerrain(value) {
             svg.selectAll("g").classed("filtered", false);
-            svg.selectAll("g").filter(data => data.type === value).classed("filtered", true);
+            if (!value) { return; }
+
+            if (value && value.startsWith("attitude")) {
+                svg.selectAll("g").filter(data => (data.friendly || false) === (value === "attitude-friendly")).classed("filtered", true);
+            } else if (value && value.startsWith("misc")) {
+                svg.selectAll("g").filter(data => data.visited === true).classed("filtered", true);
+            } else {
+                svg.selectAll("g").filter(data => data.type === value).classed("filtered", true);
+            }
         }
         function filterId(value) {
             svg.selectAll("g").classed("filtered", false);
@@ -1653,7 +1670,7 @@
                     "loot-caged-dwarf": 0,
                     "building-blacksmith": 0, "building-small-apothecary": 0, "building-middle-apothecary": 0
                 }
-                
+
             },
             {
                 "type": "cave",
