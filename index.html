@@ -111,9 +111,9 @@
                         <select id="contain" onchange="setHash('contain', this.value)">
                             <option value="" selected>Select item</option>
                             <optgroup label="Beacons">
-                                <option value="beacon-narrow">Narrow beacon</option>
-                                <option value="beacon-wide">Wide beacon</option>
-                                <option value="beacon-gesdun">Gesdun beacon</option>
+                                <option value="beacon-narrow">Treasure Hall Beacons</option>
+                                <option value="beacon-wide">Wide Beacon</option>
+                                <option value="beacon-gesdun">Gesdun Beacon</option>
                             </optgroup>
                             <optgroup label="Foes">
                                 <option value="foe-goblins">Goblins</option>
@@ -598,7 +598,10 @@
             {
                 "type": "forest",
                 "name": "protruding ruins",
-                "x": 749, "y": 126, "id": 26
+                "x": 749, "y": 126, "id": 26,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "cave",
@@ -666,7 +669,10 @@
             {
                 "type": "forest",
                 "name": "gloot's tower",
-                "x": 456, "y": 165, "id": 39
+                "x": 456, "y": 165, "id": 39,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "fort",
@@ -805,7 +811,10 @@
             {
                 "type": "ruins",
                 "name": "peaceful glade",
-                "x": 352, "y": 246, "id": 66
+                "x": 352, "y": 246, "id": 66,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "desert",
@@ -858,7 +867,10 @@
             {
                 "type": "ruins",
                 "name": "autumn beacon",
-                "x": 748, "y": 264, "id": 73
+                "x": 748, "y": 264, "id": 73,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "forest",
@@ -1007,7 +1019,10 @@
             {
                 "type": "swamp",
                 "name": "sulphuric mire",
-                "x": 820, "y": 318, "id": 96
+                "x": 820, "y": 318, "id": 96,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "cave",
@@ -1017,7 +1032,10 @@
             {
                 "type": "ruins",
                 "name": "mascom westgate",
-                "x": 694, "y": 324, "id": 98
+                "x": 694, "y": 324, "id": 98,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "ruins",
@@ -1169,7 +1187,10 @@
             {
                 "type": "swamp",
                 "name": "sulphuric mire",
-                "x": 719, "y": 358, "id": 114
+                "x": 719, "y": 358, "id": 114,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "cave",
@@ -1344,7 +1365,10 @@
             {
                 "type": "ruins",
                 "name": "excavated beacon",
-                "x": 774, "y": 417, "id": 136
+                "x": 774, "y": 417, "id": 136,
+                "contain": {
+                    "beacon-narrow": 1
+                }
             },
             {
                 "type": "cave",
@@ -1921,7 +1945,6 @@
                 "name": "hovering beacon",
                 "x": 133, "y": 705, "id": 237,
                 "contain": {
-                    "beacon-narrow": 1
                 }
             }
         ];
