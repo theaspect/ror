@@ -253,7 +253,7 @@
                 .attr("text-anchor", "middle")
                 .attr("class", "mark");
 
-            points.select("text.mark")
+            svg.selectAll("g").select("text.mark")
                 .classed("ok", (d, i) => getVisited(i) === 1)
                 .classed("fail", (d, i) => getVisited(i) === 2)
                 .text((d, i) => ["", "✓", "✗"][getVisited(i)]);
