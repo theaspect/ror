@@ -27,10 +27,22 @@
         }
 
         .filtered text.name,
+        .contain text.name,
         .hover text.name {
             opacity: 1;
             fill: cyan;
             text-shadow: 1px 1px black;
+        }
+
+        .contain text.name {
+            opacity: 0;
+        }
+
+        .contain text.amount {
+            opacity: 1;
+            fill: white;
+            text-shadow: 1px 1px black;
+            z-index: 10;
         }
 
         text.mark {
@@ -67,6 +79,7 @@
         }
 
         .filtered circle,
+        .contain circle,
         .hover circle,
         .highlight circle {
             fill-opacity: 0;
@@ -212,6 +225,8 @@
                         <li>Click on location to get info</li>
                         <li>Double click on location to mark it</li>
                         <li>You can copy location link</li>
+                        <li>Select an item from contain dropbox to see amount</li>
+                        <li>Keep a mouse over location to see the name</li>
                     </ul>
                 </p>
                 <p>
@@ -251,21 +266,7 @@
                 .attr("transform", (d, i) => `translate(${d.x},${d.y})`);
             points.exit().remove();
 
-            g.append("text")
-                .attr("dy", -16)
-                .attr("text-anchor", "middle")
-                .attr("class", "name")
-                .text((d, i) => `#${d.id} ${d.name}`);
-
-            g.append("text")
-                .attr("dy", 11)
-                .attr("text-anchor", "middle")
-                .attr("class", "mark");
-
-            svg.selectAll("g").select("text.mark")
-                .classed("ok", (d, i) => getVisited(i) === 1)
-                .classed("fail", (d, i) => getVisited(i) === 2)
-                .text((d, i) => ["", "✓", "✗"][getVisited(i)]);
+            g.append("title").text((d,i) => `#${d.id} ${d.name}`);
 
             // Passive visited marker
             g.filter(data => data.visited)
@@ -299,9 +300,38 @@
                     d3.select(d3.event.target.parentNode).classed("hover", true)
                 })
                 .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("hover", false));
+
+            // Location Name
+            g.append("text")
+                .attr("dy", -16)
+                .attr("text-anchor", "middle")
+                .attr("class", "name")
+                .text((d, i) => `#${d.id} ${d.name}`);
+
+            // Ok/Fail mark
+            g.append("text")
+                .attr("dy", 11)
+                .attr("text-anchor", "middle")
+                .attr("class", "mark");
+
+            svg.selectAll("g").select("text.mark")
+                .classed("ok", (d, i) => getVisited(i) === 1)
+                .classed("fail", (d, i) => getVisited(i) === 2)
+                .text((d, i) => ["", "✓", "✗"][getVisited(i)]);
+
+            // Resource amount
+            g.append("text")
+                .attr("dy", -16)
+                .attr("text-anchor", "middle")
+                .attr("class", "amount");
         }
-        function filterTerrain(value) {
+        function clearSelection(){
             svg.selectAll("g").classed("filtered", false);
+            svg.selectAll("g").classed("contain", false);
+        }
+
+        function filterTerrain(value) {
+            clearSelection();
             if (!value) { return; }
 
             if (value && value.startsWith("attitude")) {
@@ -313,21 +343,24 @@
             }
         }
         function filterId(value) {
-            svg.selectAll("g").classed("filtered", false);
+            clearSelection();
             svg.selectAll("g").filter(data => `${data.id}` === value).classed("filtered", true);
         }
         function filterSearch(value) {
-            svg.selectAll("g").classed("filtered", false);
+            clearSelection();
             // Empty search
             if (value) {
                 svg.selectAll("g").filter(data => fullTextSearch(data, value)).classed("filtered", true);
             }
         }
         function filterContain(value) {
-            svg.selectAll("g").classed("filtered", false);
+            clearSelection();
             // Empty search
             if (value) {
-                svg.selectAll("g").filter(data => data.contain && data.contain[value]).classed("filtered", true);
+                svg.selectAll("g").filter(data => data.contain && data.contain[value])
+                    .classed("contain", true)
+                    // Set items amount
+                    .select("text.amount").text((d, i) => d.contain[value]);
             }
         }
 
@@ -1155,9 +1188,9 @@
                     "beacon-narrow": 0, "beacon-wide": 0, "beacon-gesdun": 0,
                     "foe-goblins": 0, "foe-kobolds": 0, "foe-orcs": 9, "foe-wolves": 0, "foe-undead": 0, "foe-crawlers": 0,
                     "foe-poison-slug": 0, "foe-fire-slug": 0, "foe-troll": 0, "foe-druids": 0, "foe-bosses": 0,
-                    "res-wood": 2, "res-food": 0, "res-leather": 1, "res-stone": 200, "res-cotton": 0, "res-coal": 0, "res-ore": 0,
+                    "res-wood": 0, "res-food": 0, "res-leather": 1, "res-stone": 200, "res-cotton": 0, "res-coal": 0, "res-ore": 0,
                     "res-copper": 0, "res-iron": 0, "res-bronze": 0, "res-steel": 0, "res-adamantine": 0,
-                    "sp-wood": 0, "sp-food": 0, "sp-leather": 0, "sp-stone": 0, "sp-cotton": 0, "sp-coal": 0, "sp-ore": 0,
+                    "sp-wood": 2, "sp-food": 0, "sp-leather": 0, "sp-stone": 0, "sp-cotton": 0, "sp-coal": 0, "sp-ore": 0,
                     "sp-copper": 0, "sp-iron": 0, "sp-bronze": 0, "sp-steel": 0, "sp-adamantine": 0,
                     "loot-small-chest": 1, "loot-middle-chest": 1, "loot-golden-chest": 0,
                     "loot-weapon-rack": 1, "loot-armor-rack": 1,
