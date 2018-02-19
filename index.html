@@ -138,6 +138,7 @@
                                 <option value="beacon-gesdun">Gesdun Beacon</option>
                             </optgroup>
                             <optgroup label="Foes">
+                                <option value="foe-total">Total Foes</option>
                                 <option value="foe-goblins">Goblins</option>
                                 <option value="foe-blue-goblin">Blueskin Goblins</option>
                                 <option value="foe-kobolds">Kobolds</option>
@@ -495,7 +496,16 @@
                 document.getElementById('info-comment').innerHTML = "";
             }
         }
-        function postInit() {
+        function totalFoes(data) {
+            const getCount = x => typeof x === "number" ? x : x.split(',').length;
+            data.forEach((item, i, arr) => {
+                if (item.contain) {
+                    item.contain['foe-total'] = Object.keys(item.contain).reduce((acc, key) => acc + (key.startsWith('foe-') ? getCount(item.contain[key]) : 0), 0)
+                }
+            })
+        }
+        function postInit(data) {
+            totalFoes(data)
             update();
             onHashChange();
         }
@@ -4365,7 +4375,7 @@
                 }
             }
         ];
-        postInit();
+        postInit(markers);
     </script>
 </body>
 
