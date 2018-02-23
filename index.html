@@ -90,6 +90,16 @@
             position: absolute;
             bottom: 0;
         }
+
+        #contents {
+            -moz-column-count: 6;
+            -webkit-column-count: 6;
+            column-count: 6;
+
+            /* -moz-column-width: 100px;
+            -webkit-column-width: 100px;
+            column-width: 100px; */
+        }
     </style>
     <title>Regions of Ruin Map v0.2</title>
 </head>
@@ -168,7 +178,7 @@
                                 <option value="foe-fire-mushrooms">Fire Mushrooms</option>
                                 <option value="foe-thorns">Weeds</option>
                                 <option value="foe-fire-thorns">Fire Weeds</option>
-                                
+
                                 <option value="foe-druids">Druids</option>
                                 <option value="foe-sentinel">Sentinels</option>
                                 <option value="foe-crazy-dwarf">Crazy Dwarves</option>
@@ -272,8 +282,14 @@
                 <div class="copy">
                     <small>Copyright &copy; 2017
                         <a href="https://github.com/theaspect/ror">theaspect</a>.
+                        <a href="#contents" onclick="setHash('contents', '')">contents</a>
                     </small>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p id="contents" style="display: none"></p>
             </div>
         </div>
     </div>
@@ -358,6 +374,7 @@
         function clearSelection() {
             svg.selectAll("g").classed("filtered", false);
             svg.selectAll("g").classed("contain", false);
+            document.getElementById("contents").style.display = 'none';
         }
 
         function filterTerrain(value) {
@@ -468,6 +485,9 @@
                     updateFilter('contain', value);
                     filterContain(value);
                     break;
+                case "#contents":
+                    document.getElementById("contents").style.display = 'block';
+                    break;
                 default:
                     console.log(`Unknown filter ${filter}`);
             }
@@ -531,10 +551,21 @@
                 }
             })
         }
+        function fillContents(data) {
+            const contents = document.getElementById("contents");
+            data.forEach((item, id) => {
+                const a = document.createElement("a");
+                a.innerText = `#${id} ${item.name}`;
+                a.setAttribute('href', `#id/${id}`);
+                contents.appendChild(a);
+                contents.appendChild(document.createElement("br"));
+            });
+        }
         function postInit(data) {
             totalFoes(data)
             update();
             onHashChange();
+            fillContents(data);
         }
 
         // Sort and enumerate
