@@ -44,6 +44,14 @@
             z-index: 10;
         }
 
+        text.id {
+            opacity: 1;
+            fill: white;
+            text-shadow: 2px 2px black;
+            z-index: 10;
+            font-size: 0.5em;
+        }
+
         text.mark {
             opacity: 1;
             fill: cyan;
@@ -396,6 +404,12 @@
                 .attr("dy", -16)
                 .attr("text-anchor", "middle")
                 .attr("class", "amount");
+
+            g.append("text")
+                .attr("dy", 16)
+                .attr("text-anchor", "middle")
+                .attr("class", "id")
+                .text((d, i) => i);
         }
 
         function getTitle(data) {
