@@ -27,8 +27,7 @@
         }
 
         .filtered text.name,
-        .contain text.name,
-        .hover text.name {
+        .contain text.name {
             opacity: 1;
             fill: cyan;
             text-shadow: 2px 2px black;
@@ -95,10 +94,21 @@
             -moz-column-count: 6;
             -webkit-column-count: 6;
             column-count: 6;
+        }
+        span.tooltip {
+            position: absolute;
+            text-align: left;
+            padding: 0.5em;
+            max-width: 200px;
+            font-size: 0.3em;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 0.3em;
 
-            /* -moz-column-width: 100px;
-            -webkit-column-width: 100px;
-            column-width: 100px; */
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: default;
+            pointer-events: none;
         }
     </style>
     <title>Regions of Ruin Map v0.2</title>
@@ -306,13 +316,16 @@
         function update() {
             console.log("Refresh");
 
+            // Define the div for the tooltip
+            var tooltip = d3.select("body").append("span")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
             const points = svg.selectAll("g").data(markers);
             const g = points.enter()
                 .append("g")
                 .attr("transform", (d, i) => `translate(${d.x},${d.y})`);
             points.exit().remove();
-
-            g.append("title").text((d, i) => `#${d.id} ${d.name}`);
 
             // Passive visited marker
             g.filter(data => data.visited)
@@ -344,8 +357,21 @@
                 .on("mouseover", (data, i) => {
                     console.log(i, data)
                     d3.select(d3.event.target.parentNode).classed("hover", true)
+                    // Tooltip
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                        tooltip.html(getTitle(data))
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY) + "px");
                 })
-                .on("mouseout", (data, i) => d3.select(d3.event.target.parentNode).classed("hover", false));
+                .on("mouseout", (data, i) => {
+                    d3.select(d3.event.target.parentNode).classed("hover", false);
+                    // Tooltip
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", 0);
+                });
 
             // Location Name
             g.append("text")
@@ -371,6 +397,16 @@
                 .attr("text-anchor", "middle")
                 .attr("class", "amount");
         }
+
+        function getTitle(data) {
+            data.contain
+            return ` \
+                <strong>#${data.id} ${data.name}</strong> \
+                <p>${formatContain(data)}</p>
+                <p>${formatComment(data)}</p>
+            `
+        }
+
         function clearSelection() {
             svg.selectAll("g").classed("filtered", false);
             svg.selectAll("g").classed("contain", false);
@@ -448,7 +484,9 @@
             if (value) {
                 return String(data.id).indexOf(value) != -1
                     || data.name.toLowerCase().indexOf(value.toLowerCase()) != -1
-                    || (data.comment ? data.comment.toLowerCase() : "").indexOf(value.toLowerCase()) != -1;
+                    || (data.comment ? data.comment.toLowerCase() : "").indexOf(value.toLowerCase()) != -1
+                    || (data.contain && data.contain['foe-bosses'] ? data.contain['foe-bosses'].toLowerCase() : "")
+                            .indexOf(value.toLowerCase()) != -1;
             } else {
                 return false;
             }
