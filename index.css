@@ -1,0 +1,100 @@
+text {
+    opacity: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+    pointer-events: none;
+}
+
+.filtered text.name,
+.contain text.name {
+    opacity: 1;
+    fill: cyan;
+    text-shadow: 2px 2px black;
+}
+
+.contain text.name {
+    opacity: 0;
+}
+
+.contain text.amount {
+    opacity: 1;
+    fill: white;
+    text-shadow: 2px 2px black;
+    z-index: 10;
+}
+
+text.id {
+    opacity: 1;
+    fill: LightSkyBlue;
+    text-shadow: 2px 2px black;
+    z-index: 10;
+    font-size: 0.5em;
+}
+
+text.mark {
+    opacity: 1;
+    fill: cyan;
+    text-shadow: 1px 1px black;
+    font-size: 2em;
+}
+
+text.mark.ok {
+    fill: greenyellow;
+}
+
+text.mark.fail {
+    fill: red;
+}
+
+circle {
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    stroke: red;
+    stroke-width: 5;
+}
+
+circle.friendly {
+    stroke: greenyellow;
+}
+
+circle.visited {
+    fill-opacity: 0;
+    stroke-opacity: 0;
+    stroke-width: 1;
+    stroke: black;
+}
+
+.filtered circle,
+.contain circle,
+.hover circle,
+.highlight circle {
+    fill-opacity: 0;
+    stroke-opacity: 0.8;
+}
+
+.copy {
+    position: absolute;
+    bottom: 0;
+}
+
+#contents {
+    -moz-column-count: 6;
+    -webkit-column-count: 6;
+    column-count: 6;
+}
+span.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 0.5em;
+    max-width: 200px;
+    font-size: 0.3em;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 0.3em;
+
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+    pointer-events: none;
+}
